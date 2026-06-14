@@ -40,7 +40,6 @@
       overflow-x: hidden;
     }
 
-    /* ─── UTILS ─── */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
     .section-label {
       font-family: var(--font-mono);
@@ -52,7 +51,7 @@
     }
 
     /* ═══════════════════════════════════════
-       NAVBAR (poprawione menu, brak emotek)
+       NAVBAR
     ═══════════════════════════════════════ */
     #navbar {
       position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -69,34 +68,25 @@
       display: flex; align-items: center; justify-content: space-between;
     }
 
-    /* Logo */
+    /* Logo tekstowe */
     .nav-logo {
-      display: flex; align-items: center; gap: 12px;
-      text-decoration: none;
-    }
-    .logo-img {
-      height: 44px;
-      width: auto;
-      display: block;
-    }
-    .logo-text {
       display: flex;
       flex-direction: column;
+      text-decoration: none;
+      line-height: 1.2;
     }
     .nav-logo-name {
       font-family: var(--font-display);
       font-size: 1.5rem; font-weight: 700;
       color: var(--white);
-      line-height: 1;
     }
     .nav-logo-sub {
       font-family: var(--font-mono);
       font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
       color: var(--green-light);
-      margin-top: 2px;
     }
 
-    /* Desktop menu — główne linki + dropdown */
+    /* Desktop menu */
     .nav-links {
       display: flex; align-items: center; gap: 6px;
       list-style: none;
@@ -111,14 +101,16 @@
       padding: 10px 18px;
       border-radius: 40px;
       transition: all var(--transition);
-      display: flex; align-items: center; gap: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       white-space: nowrap;
     }
     .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,.12); }
     .nav-links > li > a .arrow { font-size: .7rem; transition: transform var(--transition); margin-left: 4px; }
     .nav-links > li:hover > a .arrow { transform: rotate(180deg); }
 
-    /* Dropdown - poprawione: większa strefa, nie znika przy przejściu */
+    /* Dropdown */
     .dropdown {
       position: absolute;
       top: calc(100% + 4px);
@@ -136,16 +128,11 @@
       list-style: none;
       z-index: 200;
     }
-    /* Dzięki temu kursor może spokojnie przejść z linku do dropdownu */
     .nav-links > li:hover .dropdown {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
       pointer-events: auto;
-    }
-    .dropdown li {
-      padding: 0;
-      margin: 0;
     }
     .dropdown a {
       color: var(--text);
@@ -161,11 +148,6 @@
     .dropdown a:hover {
       background: var(--off-white);
       color: var(--green-deep);
-    }
-    .dropdown-icon {
-      width: 22px;
-      text-align: center;
-      font-size: 1rem;
     }
 
     /* Koszyk i hamburger */
@@ -189,11 +171,6 @@
       width: 20px; height: 20px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       border: 2px solid var(--green-deep);
-    }
-
-    /* Ukryty przycisk CTA w navbar (Sklep → zostaje w linkach głównych) */
-    .nav-cta-mobile {
-      display: none;
     }
     .hamburger {
       display: none; flex-direction: column; gap: 5px;
@@ -221,8 +198,7 @@
       border-bottom: 1px solid rgba(255,255,255,.1);
     }
     
-    /* ═════════ slider, produkty, sekcje jak wcześniej, bez zmian stylów poza kosmetyką ═════ */
-    /* ... (zachowujemy resztę stylów) ... */
+    /* ═════════ HERO SLIDER ═════════ */
     #hero { position: relative; height: 100vh; min-height: 600px; overflow: hidden; }
     .slides { position: relative; width: 100%; height: 100%; }
     .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; transition: opacity .8s ease; pointer-events: none; }
@@ -232,126 +208,201 @@
     .slide-1 .slide-bg { background: linear-gradient(135deg, #0d2318 0%, #1e4d30 40%, #2d7a50 100%); }
     .slide-2 .slide-bg { background: linear-gradient(135deg, #162b20 0%, #1a3d2b 50%, #4e8c6a 100%); }
     .slide-3 .slide-bg { background: linear-gradient(135deg, #0a1a10 0%, #1c3828 60%, #3a6e4e 100%); }
-    .slide-deco { position: absolute; right: 8%; bottom: 15%; opacity: .12; width: 38vw; max-width: 520px; }
     .slide-content { position: relative; z-index: 2; padding: 0 0 80px 0; width: 100%; }
     .slide-content .container { max-width: 900px; margin: 0; padding-left: clamp(24px, 6vw, 100px); }
+    .slide-eyebrow {
+      font-family: var(--font-mono);
+      font-size: .72rem; letter-spacing: .22em;
+      color: var(--green-light);
+      margin-bottom: 18px;
+    }
+    .slide-headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 900; line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .slide-headline em { color: var(--green-light); font-style: italic; }
+    .slide-body {
+      font-size: clamp(.95rem, 1.5vw, 1.1rem);
+      line-height: 1.7;
+      color: rgba(255,255,255,.80);
+      max-width: 520px;
+      margin-bottom: 36px;
+    }
     .btn-primary, .btn-outline { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; cursor: pointer; transition: all var(--transition); text-decoration: none; }
     .btn-primary { background: var(--green-accent); color: var(--white); padding: 14px 28px; font-weight: 600; border: none; }
     .btn-primary:hover { background: #3A7A58; transform: translateY(-2px); }
     .btn-outline { background: transparent; color: var(--white); padding: 13px 28px; border: 1.5px solid rgba(255,255,255,.45); }
     .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.10); }
-    .slider-nav, .slider-arrows, .scroll-hint { position: absolute; z-index: 10; }
-    .slider-nav { bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+    .slider-nav { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
     .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.35); border: none; cursor: pointer; }
     .slider-dot.active { background: var(--white); width: 24px; border-radius: 4px; }
+    .slider-arrows { position: absolute; top: 50%; z-index: 10; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; transform: translateY(-50%); pointer-events: none; }
+    .slider-arrow { pointer-events: auto; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+
+    /* ═════════ STATS ═════════ */
     #stats-bar { background: var(--green-deep); padding: 28px 0; }
     .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
     .stat-item { text-align: center; padding: 16px 24px; border-right: 1px solid rgba(255,255,255,.12); }
     .stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--white); }
-    #about, #products, #testimonials { padding: 100px 0; }
+    .stat-label { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; color: rgba(255,255,255,.55); text-transform: uppercase; }
+
+    /* ═════════ ABOUT ═════════ */
+    #about { padding: 100px 0; background: var(--white); }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .about-image-frame { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, var(--green-deep), var(--green-mid)); border-radius: 18px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.1); font-size: 2rem; }
+    .about-heading { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--green-deep); margin-bottom: 24px; }
+    .about-heading em { font-style: italic; color: var(--green-accent); }
+    .about-body { font-size: .97rem; line-height: 1.75; color: var(--text-muted); margin-bottom: 20px; }
+    .about-values { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .value-chip { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--off-white); border-radius: 10px; border-left: 3px solid var(--green-accent); }
+    .value-chip-icon { font-size: 1.3rem; }
+    .value-chip-title { font-size: .84rem; font-weight: 600; color: var(--green-deep); margin-bottom: 3px; }
+    .value-chip-text { font-size: .78rem; color: var(--text-muted); }
+
+    /* ═════════ DLACZEGO MY (nowa sekcja) ═════════ */
+    #why-us { padding: 0 0 80px 0; background: var(--off-white); }
+    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
+    .feature-card { background: white; padding: 32px 24px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-card); transition: transform var(--transition); }
+    .feature-card:hover { transform: translateY(-5px); }
+    .feature-icon { font-size: 2.5rem; margin-bottom: 20px; }
+    .feature-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--green-deep); margin-bottom: 10px; }
+    .feature-desc { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* ═════════ PRODUKTY ═════════ */
+    #products { padding: 100px 0; background: var(--white); }
+    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
+    .section-heading { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--green-deep); }
+    .section-heading em { font-style: italic; color: var(--green-accent); }
+    .see-all { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--green-accent); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap var(--transition); }
+    .see-all:hover { gap: 10px; }
+    .filter-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
+    .filter-tab { font-family: var(--font-mono); font-size: .7rem; padding: 8px 20px; border-radius: 40px; border: 1px solid var(--border); background: white; cursor: pointer; transition: all var(--transition); }
+    .filter-tab.active, .filter-tab:hover { background: var(--green-deep); color: white; border-color: var(--green-deep); }
     .products-carousel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .product-card { background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); transition: transform var(--transition); cursor: pointer; position: relative; overflow: hidden; }
+    .product-card { background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); transition: transform var(--transition); overflow: hidden; position: relative; }
     .product-card:hover { transform: translateY(-6px); }
+    .product-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--green-light); transform: scaleY(0); transform-origin: bottom; transition: transform .4s; z-index: 2; }
+    .product-card:hover::before { transform: scaleY(1); background: var(--green-accent); }
     .product-image-wrap { aspect-ratio: 4/3; background: #eef3ef; display: flex; align-items: center; justify-content: center; position: relative; }
     .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .product-badge { position: absolute; top: 12px; right: 12px; background: var(--green-deep); color: white; font-family: var(--font-mono); font-size: .65rem; padding: 4px 10px; border-radius: 4px; }
+    .product-badge.sale { background: #E63946; }
     .product-info { padding: 18px; }
-    .add-to-cart { background: var(--green-deep); color: white; border: none; padding: 8px 14px; border-radius: 40px; cursor: pointer; }
-    .filter-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
-    .filter-tab { font-family: var(--font-mono); font-size: .7rem; padding: 8px 20px; border-radius: 40px; border: 1px solid var(--border); background: white; cursor: pointer; }
-    .filter-tab.active, .filter-tab:hover { background: var(--green-deep); color: white; }
-    
-    /* Stopka — zredukowana i z obrazkiem navbar.webp */
-    #footer {
-      background: var(--green-deep);
-      margin-top: 0;
-    }
-    .footer-image {
-      width: 100%;
-      height: auto;
-      max-height: 280px;
-      object-fit: cover;
-      display: block;
-    }
-    .footer-main {
-      padding: 48px 0 32px;
-    }
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1.5fr;
-      gap: 40px;
-      margin-bottom: 32px;
-    }
-    .footer-brand .nav-logo { margin-bottom: 16px; display: inline-flex; }
+    .product-cat { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .14em; color: var(--green-accent); margin-bottom: 6px; text-transform: uppercase; }
+    .product-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--green-deep); margin-bottom: 6px; }
+    .product-desc { font-size: .78rem; color: var(--text-muted); margin-bottom: 12px; }
+    .product-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+    .stars { color: #F4A61C; font-size: .85rem; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
+    .product-price { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; color: var(--green-deep); }
+    .old-price { font-size: .8rem; font-weight: 400; color: var(--text-muted); text-decoration: line-through; margin-right: 6px; }
+    .add-to-cart { background: var(--green-deep); color: white; border: none; padding: 8px 14px; border-radius: 40px; cursor: pointer; transition: background var(--transition); font-weight: 500; }
+    .add-to-cart:hover { background: var(--green-accent); }
+
+    /* ═════════ OPINIE ═════════ */
+    #testimonials { padding: 100px 0; background: var(--off-white); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+    .testimonial-card { background: white; border-radius: var(--radius-card); padding: 30px; border: 1px solid var(--border); }
+    .testimonial-quote { font-family: var(--font-display); font-size: 3rem; line-height: 0.7; color: var(--green-light); margin-bottom: 16px; }
+    .testimonial-text { font-size: .9rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px; }
+    .testimonial-author { display: flex; align-items: center; gap: 12px; }
+    .author-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; background: var(--green-accent); }
+    .author-name { font-size: .88rem; font-weight: 600; color: var(--green-deep); }
+    .author-role { font-family: var(--font-mono); font-size: .68rem; color: var(--text-muted); }
+
+    /* ═════════ BANNER CTA ═════════ */
+    #banner-cta { background: var(--green-deep); padding: 72px 0; position: relative; overflow: hidden; }
+    .banner-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+    .banner-heading { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; color: var(--white); }
+    .banner-heading em { font-style: italic; color: var(--green-light); }
+    .banner-sub { font-size: .9rem; color: rgba(255,255,255,.65); margin-top: 10px; }
+
+    /* ═════════ STOPKA ═════════ */
+    #footer { background: var(--green-deep); margin-top: 0; }
+    .footer-image { width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block; }
+    .footer-main { padding: 48px 0 32px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; margin-bottom: 32px; }
     .footer-desc { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.5; margin-bottom: 20px; }
     .footer-col-title { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .18em; color: var(--green-light); margin-bottom: 18px; text-transform: uppercase; }
     .footer-links { list-style: none; }
     .footer-links li { margin-bottom: 10px; }
     .footer-links a { font-size: .85rem; color: rgba(255,255,255,.6); text-decoration: none; transition: color 0.2s; }
     .footer-links a:hover { color: white; }
-    .footer-newsletter p { font-size: .84rem; color: rgba(255,255,255,.6); margin-bottom: 14px; }
-    .newsletter-form input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: rgba(255,255,255,.1); color: white; margin-bottom: 10px; }
-    .newsletter-form button { background: var(--green-accent); border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; width: 100%; cursor: pointer; }
+    .newsletter-form input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: rgba(255,255,255,.1); color: white; margin-bottom: 10px; outline: none; }
+    .newsletter-form input::placeholder { color: rgba(255,255,255,.4); }
+    .newsletter-form button { background: var(--green-accent); border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; width: 100%; cursor: pointer; transition: background var(--transition); }
+    .newsletter-form button:hover { background: #3A7A58; }
     .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; font-size: .7rem; color: rgba(255,255,255,.4); }
-    .cart-drawer, .cart-backdrop, .toast { /* jak wcześniej */ }
-    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; background: white; z-index: 2001; transform: translateX(100%); transition: transform .3s; display: flex; flex-direction: column; }
+
+    /* ═════════ CART DRAWER ═════════ */
+    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; background: white; z-index: 2001; transform: translateX(100%); transition: transform .3s; display: flex; flex-direction: column; box-shadow: -4px 0 24px rgba(0,0,0,.1); }
     .cart-drawer.open { transform: translateX(0); }
     .cart-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.2s; }
     .cart-backdrop.open { opacity: 1; visibility: visible; }
+    .cart-drawer-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .cart-drawer-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--green-deep); }
+    .cart-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted); }
+    .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
+    .cart-empty { text-align: center; color: var(--text-muted); padding: 40px 0; }
+    .cart-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: center; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: .85rem; font-weight: 600; color: var(--green-deep); }
+    .cart-item-price { font-size: .8rem; color: var(--green-accent); }
+    .cart-item-qty { display: flex; align-items: center; gap: 8px; }
+    .qty-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: none; cursor: pointer; }
+    .cart-footer { padding: 20px; border-top: 1px solid var(--border); }
+    .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-weight: 600; }
     .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green-deep); color: white; padding: 10px 20px; border-radius: 40px; transition: 0.2s; z-index: 3000; opacity: 0; }
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    @media (max-width: 1024px) { .products-carousel { grid-template-columns: repeat(3,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } .products-carousel { grid-template-columns: repeat(2,1fr); } .about-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } }
+
+    @media (max-width: 1024px) { .products-carousel { grid-template-columns: repeat(3,1fr); } .features-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } .products-carousel { grid-template-columns: repeat(2,1fr); } .about-grid { grid-template-columns: 1fr; } .testimonials-grid { grid-template-columns: 1fr; } .features-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(2,1fr); } }
   </style>
 </head>
 <body>
 
-<!-- ═══ NAVBAR (poprawiona, bez emotek, z rozwijanymi które nie znikają) ═══ -->
+<!-- ═══ NAVBAR ═══ -->
 <nav id="navbar">
   <div class="container">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <!-- miejsce na logo navbar.webp (docelowo 1400x500 przycięte) -->
-        <img src="navbar.webp" alt="VeloGreen - Akcesoria Rowerowe" class="logo-img" style="height:48px; width:auto;">
-        <div class="logo-text">
-          <div class="nav-logo-name">VeloGreen</div>
-          <div class="nav-logo-sub">Akcesoria Rowerowe</div>
-        </div>
+        <div class="nav-logo-name">VeloGreen</div>
+        <div class="nav-logo-sub">Akcesoria Rowerowe</div>
       </a>
 
       <ul class="nav-links">
-        <!-- O Firmie dropdown -->
         <li>
           <a href="o-firmie.html">O Firmie <span class="arrow">▾</span></a>
           <ul class="dropdown">
-            <li><a href="o-firmie.html#historia"><span class="dropdown-icon">🏔</span> Nasza historia</a></li>
-            <li><a href="o-firmie.html#zespol"><span class="dropdown-icon">👥</span> Nasz zespół</a></li>
-            <li><a href="o-firmie.html#wartosci"><span class="dropdown-icon">🌿</span> Wartości</a></li>
-            <li><a href="o-firmie.html#misja"><span class="dropdown-icon">🎯</span> Misja i wizja</a></li>
+            <li><a href="o-firmie.html#historia">Nasza historia</a></li>
+            <li><a href="o-firmie.html#zespol">Nasz zespół</a></li>
+            <li><a href="o-firmie.html#wartosci">Wartości</a></li>
+            <li><a href="o-firmie.html#misja">Misja i wizja</a></li>
           </ul>
         </li>
-        <!-- Oferta dropdown -->
         <li>
           <a href="oferta.html">Oferta <span class="arrow">▾</span></a>
           <ul class="dropdown">
-            <li><a href="oferta.html#kaski"><span class="dropdown-icon">🪖</span> Kaski</a></li>
-            <li><a href="oferta.html#oswietlenie"><span class="dropdown-icon">💡</span> Oświetlenie</a></li>
-            <li><a href="oferta.html#odziez"><span class="dropdown-icon">👕</span> Odzież</a></li>
-            <li><a href="oferta.html#czesci"><span class="dropdown-icon">⚙️</span> Części</a></li>
-            <li><a href="oferta.html#akcesoria"><span class="dropdown-icon">🎒</span> Akcesoria</a></li>
+            <li><a href="oferta.html#kaski">Kaski</a></li>
+            <li><a href="oferta.html#oswietlenie">Oświetlenie</a></li>
+            <li><a href="oferta.html#odziez">Odzież</a></li>
+            <li><a href="oferta.html#czesci">Części</a></li>
+            <li><a href="oferta.html#akcesoria">Akcesoria</a></li>
           </ul>
         </li>
-        <!-- Ciekawostki dropdown -->
         <li>
           <a href="ciekawostki.html">Ciekawostki <span class="arrow">▾</span></a>
           <ul class="dropdown">
-            <li><a href="ciekawostki.html#blog"><span class="dropdown-icon">📝</span> Blog</a></li>
-            <li><a href="ciekawostki.html#trasy"><span class="dropdown-icon">🗺</span> Trasy rowerowe</a></li>
-            <li><a href="ciekawostki.html#poradniki"><span class="dropdown-icon">🔧</span> Poradniki</a></li>
+            <li><a href="ciekawostki.html#blog">Blog</a></li>
+            <li><a href="ciekawostki.html#trasy">Trasy rowerowe</a></li>
+            <li><a href="ciekawostki.html#poradniki">Poradniki</a></li>
           </ul>
         </li>
         <li><a href="kontakt.html">Kontakt</a></li>
-        <li><a href="oferta.html" class="nav-cta" style="background: var(--green-accent); color: white; border-radius: 40px; padding: 8px 22px;">Sklep →</a></li>
+        <li><a href="oferta.html" style="background: var(--green-accent); color: white; border-radius: 40px; padding: 8px 22px;">Sklep →</a></li>
       </ul>
 
       <div class="nav-right">
@@ -377,99 +428,131 @@
   <a href="oferta.html">Sklep →</a>
 </div>
 
-<!-- ═══ HERO SLIDER (miejsce na obrazy) ═══ -->
+<!-- ═══ HERO SLIDER ═══ -->
 <section id="hero">
   <div class="slides">
     <div class="slide slide-1 active">
       <div class="slide-bg"></div>
-      <div class="slide-content"><div class="container"><p class="slide-eyebrow">// Sezon 2025</p><h1 class="slide-headline">Jedź dalej.<br><em>Żyj pełniej.</em></h1><p class="slide-body">Profesjonalne akcesoria rowerowe dla każdego.</p><div class="slide-actions"><a href="oferta.html" class="btn-primary">Odkryj ofertę →</a></div></div></div>
+      <div class="slide-content"><div class="container"><p class="slide-eyebrow">// Sezon 2025</p><h1 class="slide-headline">Jedź dalej.<br><em>Żyj pełniej.</em></h1><p class="slide-body">Profesjonalne akcesoria rowerowe dla każdego — od weekendowych wycieczek po zawodowe starty.</p><div class="slide-actions"><a href="oferta.html" class="btn-primary">Odkryj ofertę →</a></div></div></div>
     </div>
     <div class="slide slide-2">
-      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// MTB kolekcja</p><h1 class="slide-headline">Góry czekają<br><em>na Ciebie.</em></h1><div class="slide-actions"><a href="oferta.html" class="btn-primary">Zobacz MTB →</a></div></div></div>
+      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// MTB kolekcja</p><h1 class="slide-headline">Góry czekają<br><em>na Ciebie.</em></h1><p class="slide-body">Nowa kolekcja sprzętu do jazdy górskiej — kaski, ochraniacze, oświetlenie na trudne szlaki.</p><div class="slide-actions"><a href="oferta.html" class="btn-primary">Zobacz MTB →</a></div></div></div>
     </div>
     <div class="slide slide-3">
-      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// Bezpieczeństwo</p><h1 class="slide-headline">Wyposażony.<br><em>Chroniony.</em></h1><div class="slide-actions"><a href="oferta.html#kaski" class="btn-primary">Kaski i ochrona →</a></div></div></div>
+      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// Bezpieczeństwo</p><h1 class="slide-headline">Wyposażony.<br><em>Chroniony.</em></h1><p class="slide-body">Kask to nie tylko przepis — to spokój ducha. Sprawdź nasze certyfikowane kaski.</p><div class="slide-actions"><a href="oferta.html#kaski" class="btn-primary">Kaski i ochrona →</a></div></div></div>
     </div>
   </div>
   <div class="slider-arrows"><button class="slider-arrow" id="prev-slide">←</button><button class="slider-arrow" id="next-slide">→</button></div>
   <div class="slider-nav"><button class="slider-dot active" data-idx="0"></button><button class="slider-dot" data-idx="1"></button><button class="slider-dot" data-idx="2"></button></div>
 </section>
 
-<!-- ═══ produkty i reszta (krótka wersja) ═══ -->
-<section id="stats-bar"><div class="container"><div class="stats-grid"><div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">Lat na rynku</div></div><div class="stat-item"><div class="stat-num">2k</div><div class="stat-label">Produktów</div></div><div class="stat-item"><div class="stat-num">18k</div><div class="stat-label">Klientów</div></div><div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Ocena</div></div></div></div></section>
+<!-- ═══ STATS ═══ -->
+<section id="stats-bar"><div class="container"><div class="stats-grid"><div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">Lat na rynku</div></div><div class="stat-item"><div class="stat-num">2k</div><div class="stat-label">Produktów</div></div><div class="stat-item"><div class="stat-num">18k</div><div class="stat-label">Klientów</div></div><div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Średnia ocena</div></div></div></div></section>
 
-<section id="products"><div class="container"><div class="section-header"><div><p class="section-label">// Asortyment</p><h2 class="section-heading">Wybrane <em>produkty</em></h2></div><a href="oferta.html" class="see-all">Pełna oferta →</a></div>
-<div class="filter-tabs"><button class="filter-tab active" data-filter="all">Wszystkie</button><button class="filter-tab" data-filter="kaski">Kaski</button><button class="filter-tab" data-filter="oswietlenie">Oświetlenie</button><button class="filter-tab" data-filter="odziez">Odzież</button><button class="filter-tab" data-filter="czesci">Części</button><button class="filter-tab" data-filter="akcesoria">Akcesoria</button></div>
-<div class="products-carousel" id="products-grid"></div></div></section>
+<!-- ═══ O NAS ═══ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-frame">🚲 VeloGreen od 2012</div>
+      <div class="about-text">
+        <p class="section-label">// Kim jesteśmy</p>
+        <h2 class="about-heading">Pasja do jazdy,<br><em>ekspertyza w sprzęcie.</em></h2>
+        <p class="about-body">VeloGreen narodziło się z prostej obserwacji: rowerzyści zasługują na lepszy sprzęt i lepsze doradztwo. Od 2012 roku łączymy pasję do kolarstwa z rzetelną wiedzą techniczną.</p>
+        <p class="about-body">Nasz magazyn w Krakowie mieści ponad 2000 produktów — od kasków renomowanych marek po inteligentne oświetlenie LED, od bidonów po systemy sakw na wyprawy wielodniowe.</p>
+        <div class="about-values">
+          <div class="value-chip"><div class="value-chip-icon">🌿</div><div><div class="value-chip-title">Eko-podejście</div><div class="value-chip-text">Promujemy rower jako zrównoważony transport</div></div></div>
+          <div class="value-chip"><div class="value-chip-icon">🔬</div><div><div class="value-chip-title">Testy sprzętu</div><div class="value-chip-text">Każdy produkt testujemy w realnych warunkach</div></div></div>
+          <div class="value-chip"><div class="value-chip-icon">🤝</div><div><div class="value-chip-title">Doradztwo</div><div class="value-chip-text">Nasi eksperci zawsze chętnie pomogą</div></div></div>
+          <div class="value-chip"><div class="value-chip-icon">🚚</div><div><div class="value-chip-title">Szybka dostawa</div><div class="value-chip-text">Wysyłka w 24h, darmowa od 199 zł</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<!-- ═══ STOPKA ZREDUKOWANA z obrazkiem navbar.webp ═══ -->
+<!-- ═══ DLACZEGO MY (nowa sekcja) ═══ -->
+<section id="why-us">
+  <div class="container">
+    <p class="section-label">// Dlaczego VeloGreen?</p>
+    <h2 class="section-heading">Co nas <em>wyróżnia</em></h2>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🏆</div><div class="feature-title">Nagradzane produkty</div><div class="feature-desc">Tylko sprawdzone marki i modele wyróżniane w testach branżowych.</div></div>
+      <div class="feature-card"><div class="feature-icon">🔧</div><div class="feature-title">Serwis i montaż</div><div class="feature-desc">Pomagamy w doborze i montażu akcesoriów – stacjonarnie i online.</div></div>
+      <div class="feature-card"><div class="feature-icon">📦</div><div class="feature-title">30 dni na zwrot</div><div class="feature-desc">Bezproblemowe zwroty i wymiana – kupujesz bez ryzyka.</div></div>
+      <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">4.9/5 od 18k klientów</div><div class="feature-desc">Zaufali nam tysiące rowerzystów w całej Polsce.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRODUKTY ═══ -->
+<section id="products">
+  <div class="container">
+    <div class="section-header"><div><p class="section-label">// Asortyment</p><h2 class="section-heading">Wybrane <em>produkty</em></h2></div><a href="oferta.html" class="see-all">Pełna oferta →</a></div>
+    <div class="filter-tabs"><button class="filter-tab active" data-filter="all">Wszystkie</button><button class="filter-tab" data-filter="kaski">Kaski</button><button class="filter-tab" data-filter="oswietlenie">Oświetlenie</button><button class="filter-tab" data-filter="odziez">Odzież</button><button class="filter-tab" data-filter="czesci">Części</button><button class="filter-tab" data-filter="akcesoria">Akcesoria</button></div>
+    <div class="products-carousel" id="products-grid"></div>
+  </div>
+</section>
+
+<!-- ═══ OPINIE ═══ -->
+<section id="testimonials">
+  <div class="container">
+    <p class="section-label">// Opinie klientów</p>
+    <h2 class="section-heading">Co mówią <em>rowerzyści</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Zamówiłem kask i latarkę — przesyłka dotarła następnego dnia. Obsługa klienta na najwyższym poziomie, doradzili mi idealny rozmiar.</p><div class="testimonial-author"><div class="author-avatar">M</div><div><div class="author-name">Michał K.</div><div class="author-role">Kolarz górski · Kraków</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Kupuję tu od 3 lat. Jakość produktów jest nieporównywalnie lepsza niż w marketach. Ostatnio kupiłem komputer Garmin — bezbłędna konfiguracja.</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Anna W.</div><div class="author-role">Rowerzystka szosowa · Warszawa</div></div></div></div>
+      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Świetny sklep dla amatorów bikepackingu. Znalazłem tu kompletny system sakw Ortlieb w dobrej cenie. Polecam!</p><div class="testimonial-author"><div class="author-avatar">T</div><div><div class="author-name">Tomasz R.</div><div class="author-role">Bikepacker · Zakopane</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BANNER CTA ═══ -->
+<section id="banner-cta">
+  <div class="container"><div class="banner-inner"><div><p class="section-label">// Specjalna oferta</p><h2 class="banner-heading">Wiosenne <em>porządki</em> w sprzęcie?<br>Darmowa dostawa do końca miesiąca.</h2><p class="banner-sub">Skompletuj zestaw na sezon i odbierz darmową wysyłkę. Kod: <strong style="color:var(--green-light)">WIOSNA25</strong></p></div><div><a href="oferta.html" class="btn-primary" style="background:var(--white);color:var(--green-deep);">Kupuj teraz →</a></div></div></div>
+</section>
+
+<!-- ═══ STOPKA ═══ -->
 <footer id="footer">
-  <!-- Zdjęcie nagłówkowe stopki (wymiary 1400x500, możemy użyć tego samego navbar.webp) -->
-  <img src="navbar.webp" alt="VeloGreen rowery tło" class="footer-image" style="width:100%; max-height:280px; object-fit:cover;">
-  
   <div class="footer-main">
     <div class="container">
       <div class="footer-grid">
-        <div class="footer-brand">
-          <a href="index.html" class="nav-logo" style="margin-bottom:16px;">
-            <img src="navbar.webp" alt="VeloGreen" style="height:42px;">
-            <div><div class="nav-logo-name">VeloGreen</div><div class="nav-logo-sub">Akcesoria Rowerowe</div></div>
-          </a>
-          <p class="footer-desc">Twój zaufany partner w świecie rowerowym od 2012 roku. Sprzęt, który pokochałeś.</p>
-        </div>
-        <div>
-          <div class="footer-col-title">Nawigacja</div>
-          <ul class="footer-links"><li><a href="o-firmie.html">O Firmie</a></li><li><a href="oferta.html">Oferta</a></li><li><a href="ciekawostki.html">Ciekawostki</a></li><li><a href="kontakt.html">Kontakt</a></li></ul>
-        </div>
-        <div class="footer-newsletter">
-          <div class="footer-col-title">Newsletter</div>
-          <p>Bądź na bieżąco z nowościami i promocjami.</p>
-          <div class="newsletter-form"><input type="email" placeholder="Twój e-mail" id="newsletter-email"><button onclick="subscribeNewsletter()">Zapisuję się →</button></div>
-        </div>
+        <div><a href="index.html" class="nav-logo" style="margin-bottom:16px;"><div class="nav-logo-name">VeloGreen</div><div class="nav-logo-sub">Akcesoria Rowerowe</div></a><p class="footer-desc">Twój zaufany partner w świecie rowerowym od 2012 roku. Sprzęt, który pokochałeś.</p></div>
+        <div><div class="footer-col-title">Nawigacja</div><ul class="footer-links"><li><a href="o-firmie.html">O Firmie</a></li><li><a href="oferta.html">Oferta</a></li><li><a href="ciekawostki.html">Ciekawostki</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
+        <div><div class="footer-col-title">Kategorie</div><ul class="footer-links"><li><a href="oferta.html#kaski">Kaski</a></li><li><a href="oferta.html#oswietlenie">Oświetlenie</a></li><li><a href="oferta.html#odziez">Odzież</a></li><li><a href="oferta.html#czesci">Części</a></li><li><a href="oferta.html#akcesoria">Akcesoria</a></li></ul></div>
+        <div class="footer-newsletter"><div class="footer-col-title">Newsletter</div><p>Bądź na bieżąco z nowościami i promocjami.</p><div class="newsletter-form"><input type="email" placeholder="Twój e-mail" id="newsletter-email"><button onclick="subscribeNewsletter()">Zapisuję się →</button></div></div>
       </div>
-      <div class="footer-bottom"><p>© 2025 VeloGreen. Wszelkie prawa zastrzeżone.</p><div><a href="#" style="color:rgba(255,255,255,.4); text-decoration:none;">Polityka prywatności</a> | <a href="#" style="color:rgba(255,255,255,.4);">Regulamin</a></div></div>
+      <div class="footer-bottom"><p>© 2025 VeloGreen. Wszelkie prawa zastrzeżone.</p><div><a href="#" style="color:rgba(255,255,255,.4);">Polityka prywatności</a> | <a href="#" style="color:rgba(255,255,255,.4);">Regulamin</a></div></div>
     </div>
   </div>
 </footer>
 
+<!-- Koszyk drawer -->
 <div class="cart-backdrop" id="cart-backdrop"></div>
 <div class="cart-drawer" id="cart-drawer"><div class="cart-drawer-header"><div class="cart-drawer-title">Koszyk</div><button class="cart-close" id="cart-close">✕</button></div><div class="cart-items" id="cart-items-list"></div><div class="cart-footer" id="cart-footer" style="display:none;"><div class="cart-total"><span>Łącznie:</span><span id="cart-total-display">0 zł</span></div><a href="koszyk.html" class="btn-primary" style="width:100%;text-align:center;">Przejdź do kasy</a></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
   const productsData = [
-    { id:1, name:"Kask Uvex Rise CC", cat:"kaski", filter:"kaski", price:449, oldPrice:529, badge:"sale", desc:"Kask szosowy z MIPS, wentylacja.", rating:4.8, reviews:142, imgPrompt:"kask1.webp" },
-    { id:2, name:"Latarka Lezyne 1400", cat:"oswietlenie", filter:"oswietlenie", price:299, badge:"new", desc:"1400 lumenów, USB-C.", rating:4.9, reviews:88, imgPrompt:"oswietlenie1.webp" },
-    { id:3, name:"Spodenki Castelli Entrata", cat:"odziez", filter:"odziez", price:189, oldPrice:239, badge:"sale", desc:"Wkładka Progetto X2.", rating:4.6, reviews:55, imgPrompt:"odziez1.webp" },
-    { id:4, name:"Garmin Edge 540", cat:"czesci", filter:"czesci", price:1249, desc:"GPS, mapy Europy.", rating:4.9, reviews:204, imgPrompt:"komputer1.webp" },
-    { id:5, name:"Sakwa Ortlieb Back-Roller", cat:"akcesoria", filter:"akcesoria", price:349, desc:"40L, wodoszczelna.", rating:4.8, reviews:73, imgPrompt:"sakwa1.webp" },
-    { id:6, name:"Opony Continental GP5000", cat:"czesci", filter:"czesci", price:229, desc:"700x28c, para.", rating:4.7, reviews:317, imgPrompt:"opona1.webp" },
-    { id:7, name:"Kask Giro Syntax MIPS", cat:"kaski", filter:"kaski", price:579, badge:"new", desc:"System MIPS Spherical.", rating:4.9, reviews:91, imgPrompt:"kask2.webp" },
-    { id:8, name:"Rękawiczki Specialized", cat:"odziez", filter:"odziez", price:139, desc:"Żelowe wkładki.", rating:4.5, reviews:48, imgPrompt:"rekawiczki1.webp" }
+    { id:1, name:"Kask Uvex Rise CC", cat:"kaski", filter:"kaski", price:449, oldPrice:529, badge:"sale", desc:"Kask szosowy z MIPS, wentylacja.", rating:4.8, reviews:142, img:"kask1.webp" },
+    { id:2, name:"Latarka Lezyne 1400", cat:"oswietlenie", filter:"oswietlenie", price:299, badge:"new", desc:"1400 lumenów, USB-C.", rating:4.9, reviews:88, img:"oswietlenie1.webp" },
+    { id:3, name:"Spodenki Castelli", cat:"odziez", filter:"odziez", price:189, oldPrice:239, badge:"sale", desc:"Wkładka Progetto X2.", rating:4.6, reviews:55, img:"odziez1.webp" },
+    { id:4, name:"Garmin Edge 540", cat:"czesci", filter:"czesci", price:1249, desc:"GPS, mapy Europy.", rating:4.9, reviews:204, img:"komputer1.webp" },
+    { id:5, name:"Sakwa Ortlieb", cat:"akcesoria", filter:"akcesoria", price:349, desc:"40L, wodoszczelna.", rating:4.8, reviews:73, img:"sakwa1.webp" },
+    { id:6, name:"Opony Continental GP5000", cat:"czesci", filter:"czesci", price:229, desc:"700x28c, para.", rating:4.7, reviews:317, img:"opona1.webp" },
+    { id:7, name:"Kask Giro Syntax", cat:"kaski", filter:"kaski", price:579, badge:"new", desc:"System MIPS Spherical.", rating:4.9, reviews:91, img:"kask2.webp" },
+    { id:8, name:"Rękawiczki Specialized", cat:"odziez", filter:"odziez", price:139, desc:"Żelowe wkładki.", rating:4.5, reviews:48, img:"rekawiczki1.webp" }
   ];
   let cart = [];
   function renderStars(r){ let s='★'.repeat(Math.floor(r)); s+='☆'.repeat(5-Math.floor(r)); return s; }
   function renderProducts(filter='all'){
     const grid=document.getElementById('products-grid');
     const filtered=filter==='all'?productsData:productsData.filter(p=>p.filter===filter);
-    grid.innerHTML=filtered.map(p=>`
-      <div class="product-card" data-id="${p.id}">
-        <div class="product-image-wrap">
-          <img src="${p.imgPrompt}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=Zdjęcie+%22${p.imgPrompt}%22'" style="width:100%;height:100%;object-fit:cover;">
-          ${p.badge?`<span class="product-badge ${p.badge==='sale'?'sale':'new'}">${p.badge==='sale'?'SALE':'NOWOŚĆ'}</span>`:''}
-        </div>
-        <div class="product-info">
-          <div class="product-cat">${p.cat}</div><div class="product-name">${p.name}</div><div class="product-desc">${p.desc}</div>
-          <div class="product-rating"><span class="stars">${renderStars(p.rating)}</span> <span>${p.rating} (${p.reviews})</span></div>
-          <div class="product-footer"><div class="product-price">${p.oldPrice?`<span class="old-price">${p.oldPrice} zł</span> `:''}${p.price} zł</div><button class="add-to-cart" onclick="addToCart(${p.id})">Dodaj</button></div>
-        </div>
-      </div>
-    `).join('');
+    grid.innerHTML=filtered.map(p=>`<div class="product-card"><div class="product-image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=${p.img}'">${p.badge?`<span class="product-badge ${p.badge==='sale'?'sale':'new'}">${p.badge==='sale'?'SALE':'NOWOŚĆ'}</span>`:''}</div><div class="product-info"><div class="product-cat">${p.cat}</div><div class="product-name">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-rating"><span class="stars">${renderStars(p.rating)}</span> <span>${p.rating} (${p.reviews})</span></div><div class="product-footer"><div class="product-price">${p.oldPrice?`<span class="old-price">${p.oldPrice} zł</span> `:''}${p.price} zł</div><button class="add-to-cart" onclick="addToCart(${p.id})">Dodaj</button></div></div></div>`).join('');
   }
   function addToCart(id){ let p=productsData.find(x=>x.id===id); let ex=cart.find(i=>i.id===id); if(ex) ex.qty++; else cart.push({...p,qty:1}); updateCartUI(); showToast(`Dodano ${p.name}`);}
   function removeFromCart(id){ cart=cart.filter(i=>i.id!==id); updateCartUI();}
   function changeQty(id,delta){ let item=cart.find(i=>i.id===id); if(item){ item.qty+=delta; if(item.qty<=0) removeFromCart(id); else updateCartUI();}}
-  function updateCartUI(){ let total=cart.reduce((s,i)=>s+i.price*i.qty,0); let count=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-count').innerText=count; let list=document.getElementById('cart-items-list'); let footer=document.getElementById('cart-footer'); if(cart.length===0){ list.innerHTML='<div class="cart-empty"><p>Koszyk pusty</p></div>'; footer.style.display='none';} else { list.innerHTML=cart.map(i=>`<div class="cart-item"><div>🚲</div><div><div>${i.name}</div><div>${i.price} zł</div></div><div><button class="qty-btn" onclick="changeQty(${i.id},-1)">-</button><span>${i.qty}</span><button class="qty-btn" onclick="changeQty(${i.id},1)">+</button><button onclick="removeFromCart(${i.id})">✕</button></div></div>`).join(''); document.getElementById('cart-total-display').innerText=total.toFixed(2)+' zł'; footer.style.display='block';}}
+  function updateCartUI(){ let total=cart.reduce((s,i)=>s+i.price*i.qty,0); let count=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-count').innerText=count; let list=document.getElementById('cart-items-list'); let footer=document.getElementById('cart-footer'); if(cart.length===0){ list.innerHTML='<div class="cart-empty"><p>Koszyk jest pusty</p></div>'; footer.style.display='none';} else { list.innerHTML=cart.map(i=>`<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">${i.price} zł</div></div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty(${i.id},-1)">-</button><span>${i.qty}</span><button class="qty-btn" onclick="changeQty(${i.id},1)">+</button><button onclick="removeFromCart(${i.id})">✕</button></div></div>`).join(''); document.getElementById('cart-total-display').innerText=total.toFixed(2)+' zł'; footer.style.display='block';}}
   function showToast(m){ let t=document.getElementById('toast'); t.innerText=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);}
   document.getElementById('cart-toggle').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.add('open'); document.getElementById('cart-backdrop').classList.add('open');});
   document.getElementById('cart-close').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('cart-backdrop').classList.remove('open');});
@@ -478,24 +561,12 @@
   let currentSlide=0, slides=document.querySelectorAll('.slide'), dots=document.querySelectorAll('.slider-dot');
   function goToSlide(n){ slides[currentSlide].classList.remove('active'); dots[currentSlide].classList.remove('active'); currentSlide=(n+slides.length)%slides.length; slides[currentSlide].classList.add('active'); dots[currentSlide].classList.add('active');}
   document.getElementById('next-slide').addEventListener('click',()=>goToSlide(currentSlide+1)); document.getElementById('prev-slide').addEventListener('click',()=>goToSlide(currentSlide-1)); dots.forEach(d=>d.addEventListener('click',()=>goToSlide(+d.dataset.idx)));
-  let auto=setInterval(()=>goToSlide(currentSlide+1),5000); document.getElementById('hero').addEventListener('mouseenter',()=>clearInterval(auto)); document.getElementById('hero').addEventListener('mouseleave',()=>{auto=setInterval(()=>goToSlide(currentSlide+1),5000);});
+  setInterval(()=>goToSlide(currentSlide+1),5000);
   window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);});
   document.getElementById('hamburger-btn').addEventListener('click',()=>{ document.getElementById('mobile-menu').classList.toggle('open');});
   function subscribeNewsletter(){ let e=document.getElementById('newsletter-email'); if(e.value.includes('@')){ showToast('Zapisano do newslettera!'); e.value='';} else showToast('Podaj poprawny e-mail.');}
   renderProducts(); updateCartUI();
-  
-  // Prompty dla Gemini (w konsoli devtools widać komentarz)
-  console.log(`📸 PROMPTY DLA GEMINI:
-  1. Slider hero - obrazek przedstawiający rowerzystę górskiego na tle gór, styl nowoczesny, zielenie, światło.
-  2. Kask Uvex Rise CC -> "kask1.webp": nowoczesny kask szosowy, biało-zielony, izometryczny rendering.
-  3. Latarka Lezyne 1400 -> "oswietlenie1.webp": przednia lampka rowerowa, czarna, świecąca wiązka.
-  4. Spodenki Castelli -> "odziez1.webp": spodenki kolarskie, czarne z zielonym akcentem.
-  5. Garmin Edge 540 -> "komputer1.webp": komputer rowerowy na kierownicy.
-  6. Sakwa Ortlieb -> "sakwa1.webp": wodoszczelna torba, kolor czarny/zielony.
-  7. Opona Continental GP5000 -> "opona1.webp": opona rowerowa, bieżnik, detal.
-  8. Kask Giro Syntax -> "kask2.webp": kask z MIPS, ciemnozielony.
-  9. Rękawiczki Specialized -> "rekawiczki1.webp": rękawice rowerowe, oddychające.
-  Wszystkie grafiki w formacie WEBP, tło przejrzyste lub jasne, styl premium.`);
+  console.log('📸 Prompty dla Gemini: kask1.webp, oswietlenie1.webp, odziez1.webp, komputer1.webp, sakwa1.webp, opona1.webp, kask2.webp, rekawiczki1.webp - styl premium, tło jasne/neutralne');
 </script>
 </body>
 </html>
