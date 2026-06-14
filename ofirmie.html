@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VeloGreen – O Firmie | Akcesoria Rowerowe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: #F5F7F5; color: #1A1A1A; }
+    :root {
+      --green-deep: #1A3D2B; --green-mid: #2D5A3F; --green-accent: #4E8C6A;
+      --green-light: #A8CBBA; --white: #FFFFFF; --off-white: #F5F7F5;
+      --text-muted: #5C6B63; --border: #D8E4DC;
+      --font-display: 'Playfair Display', serif; --font-mono: 'Space Mono', monospace;
+      --transition: .3s ease;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section-label { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--green-accent); margin-bottom: 12px; }
+    .section-heading { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--green-deep); }
+    .section-heading em { font-style: italic; color: var(--green-accent); }
+    .btn-primary { display: inline-block; background: var(--green-accent); color: white; padding: 12px 28px; border-radius: 8px; text-decoration: none; font-weight: 600; transition: var(--transition); }
+    .btn-primary:hover { background: #3A7A58; transform: translateY(-2px); }
+    
+    /* Navbar */
+    #navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; height: 80px; background: var(--green-deep); box-shadow: 0 2px 20px rgba(0,0,0,.1); }
+    .nav-inner { height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { text-decoration: none; display: flex; flex-direction: column; }
+    .nav-logo-name { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: white; }
+    .nav-logo-sub { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em; color: var(--green-light); text-transform: uppercase; }
+    .nav-links { display: flex; list-style: none; gap: 8px; margin-left: auto; margin-right: 20px; }
+    .nav-links a { color: rgba(255,255,255,.9); text-decoration: none; padding: 10px 18px; border-radius: 40px; font-size: .9rem; font-weight: 500; transition: var(--transition); }
+    .nav-links a:hover, .nav-links a.active { background: rgba(255,255,255,.15); color: white; }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-cart { background: none; border: none; color: white; cursor: pointer; width: 46px; height: 46px; border-radius: 50%; background: rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; }
+    .cart-badge { position: absolute; top: -2px; right: -2px; background: #E63946; color: white; font-size: .62rem; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .nav-cart { position: relative; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; }
+    .hamburger span { width: 24px; height: 2px; background: white; border-radius: 2px; }
+    #mobile-menu { display: none; position: fixed; top: 80px; left: 0; right: 0; background: var(--green-deep); padding: 24px; z-index: 999; }
+    #mobile-menu.open { display: block; }
+    #mobile-menu a { display: block; color: white; text-decoration: none; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+    
+    /* Hero wewnętrzny */
+    .page-hero { background: linear-gradient(135deg, #1A3D2B, #2D5A3F); padding: 140px 0 80px; color: white; text-align: center; }
+    .page-hero h1 { font-family: var(--font-display); font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 900; margin-bottom: 16px; }
+    .page-hero p { font-size: 1.1rem; opacity: .85; max-width: 700px; margin: 0 auto; }
+    
+    /* Sekcje */
+    section { padding: 80px 0; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+    .about-img { background: var(--green-light); border-radius: 24px; height: 400px; display: flex; align-items: center; justify-content: center; font-size: 3rem; color: var(--green-deep); background: linear-gradient(135deg, #D8E4DC, #A8CBBA); }
+    .values-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 30px; margin-top: 48px; }
+    .value-card { background: white; padding: 32px; border-radius: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.05); border-left: 4px solid var(--green-accent); }
+    .value-card h3 { font-family: var(--font-display); font-size: 1.3rem; margin-bottom: 12px; color: var(--green-deep); }
+    .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 30px; margin-top: 48px; }
+    .team-card { text-align: center; background: white; padding: 30px; border-radius: 20px; }
+    .team-avatar { width: 120px; height: 120px; background: var(--green-accent); border-radius: 50%; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; color: white; }
+    .timeline { margin-top: 48px; display: flex; flex-direction: column; gap: 24px; }
+    .timeline-item { display: flex; gap: 24px; background: white; padding: 24px; border-radius: 16px; }
+    .timeline-year { font-family: var(--font-display); font-size: 1.8rem; font-weight: 900; color: var(--green-accent); min-width: 100px; }
+    
+    /* Footer */
+    #footer { background: var(--green-deep); color: white; padding: 48px 0 24px; margin-top: 0; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; margin-bottom: 32px; }
+    .footer-links { list-style: none; }
+    .footer-links a { color: rgba(255,255,255,.6); text-decoration: none; font-size: .85rem; line-height: 2; }
+    .footer-links a:hover { color: white; }
+    .footer-col-title { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .18em; margin-bottom: 18px; color: var(--green-light); text-transform: uppercase; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; text-align: center; font-size: .7rem; color: rgba(255,255,255,.4); }
+    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } .about-grid, .values-grid, .team-grid { grid-template-columns: 1fr; } .timeline-item { flex-direction: column; } .footer-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo"><div class="nav-logo-name">VeloGreen</div><div class="nav-logo-sub">Akcesoria Rowerowe</div></a>
+      <ul class="nav-links">
+        <li><a href="o-firmie.html" class="active">O Firmie</a></li>
+        <li><a href="oferta.html">Oferta</a></li>
+        <li><a href="ciekawostki.html">Ciekawostki</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="oferta.html" style="background:var(--green-accent);">Sklep →</a></li>
+      </ul>
+      <div class="nav-right">
+        <button class="nav-cart" id="cart-toggle">🛒<span class="cart-badge" id="cart-count">0</span></button>
+        <button class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+<div id="mobile-menu"><a href="o-firmie.html">O Firmie</a><a href="oferta.html">Oferta</a><a href="ciekawostki.html">Ciekawostki</a><a href="kontakt.html">Kontakt</a><a href="oferta.html">Sklep →</a></div>
+
+<section class="page-hero"><div class="container"><h1>O Firmie <em style="color:var(--green-light);">VeloGreen</em></h1><p>Pasja, doświadczenie i najwyższej jakości akcesoria rowerowe od 2012 roku.</p></div></section>
+
+<section id="historia"><div class="container"><div class="about-grid"><div class="about-img">🚲 Nasza historia w kadrach</div><div><p class="section-label">// Od 2012</p><h2 class="section-heading">Jak <em>zaczęła się</em> nasza przygoda?</h2><p style="margin-top:20px; line-height:1.7; color:var(--text-muted);">VeloGreen powstało z pasji do dwóch kółek i frustracji brakiem specjalistycznych sklepów rowerowych w Polsce. Zaczynaliśmy jako mały warsztat w Krakowie, a dziś jesteśmy jednym z liderów w sprzedaży akcesoriów rowerowych online i stacjonarnie. Przez te lata zbudowaliśmy zespół prawdziwych entuzjastów, którzy każdy produkt testują osobiście.</p><p style="margin-top:16px; line-height:1.7; color:var(--text-muted);">Naszym celem jest nie tylko sprzedaż, ale też edukacja i promowanie roweru jako zdrowego, ekologicznego środka transportu.</p></div></div></div></section>
+
+<section id="wartosci" style="background: var(--off-white);"><div class="container"><p class="section-label">// Nasze DNA</p><h2 class="section-heading">Wartości, które <em>napędzają</em> VeloGreen</h2><div class="values-grid"><div class="value-card"><h3>🌿 Ekologia</h3><p>Promujemy rower jako zrównoważony środek transportu. Pakujemy w materiały z recyklingu.</p></div><div class="value-card"><h3>🔬 Jakość</h3><p>Testujemy każdy produkt w realnych warunkach – od szos po górskie singletracki.</p></div><div class="value-card"><h3>🤝 Zaufanie</h3><p>Doradzamy bez presji, zwroty są proste, a klient zawsze na pierwszym miejscu.</p></div><div class="value-card"><h3>🚀 Innowacja</h3><p>Śledzimy światowe trendy i wprowadzamy najnowsze technologie do naszego asortymentu.</p></div></div></div></section>
+
+<section id="misja"><div class="container"><div class="about-grid"><div><p class="section-label">// Misja i wizja</p><h2 class="section-heading">Sprawiamy, że <em>każda trasa</em> staje się przygodą</h2><p style="margin-top:20px; line-height:1.7; color:var(--text-muted);">Naszą misją jest dostarczanie rowerzystom w Polsce sprzętu, który zwiększa bezpieczeństwo, komfort i radość z jazdy. Chcemy być pierwszym wyborem dla każdego, kto ceni jakość i fachowe doradztwo.</p><p style="margin-top:16px; line-height:1.7; color:var(--text-muted);">Wizja: Stworzyć największą społeczność rowerową w Polsce, gdzie każdy znajdzie sprzęt dopasowany do swoiego stylu – od rekreacyjnego po profesjonalny.</p><a href="oferta.html" class="btn-primary" style="margin-top:24px;">Sprawdź naszą ofertę →</a></div><div class="about-img">🎯 Każdy rowerzysta znajdzie coś dla siebie</div></div></div></section>
+
+<section id="zespol" style="background: var(--off-white);"><div class="container"><p class="section-label">// Nasi ludzie</p><h2 class="section-heading">Poznaj <em>zespół</em> VeloGreen</h2><div class="team-grid"><div class="team-card"><div class="team-avatar">MK</div><h3>Michał Kowalski</h3><p style="color:var(--text-muted);">Założyciel, entuzjasta bikepackingu</p></div><div class="team-card"><div class="team-avatar">AN</div><h3>Anna Nowak</h3><p style="color:var(--text-muted);">Specjalistka od kasków i bezpieczeństwa</p></div><div class="team-card"><div class="team-avatar">TP</div><h3>Tomasz Pietrzak</h3><p style="color:var(--text-muted);">Ekspert MTB i serwis</p></div></div></div></section>
+
+<section><div class="container"><p class="section-label">// Kalendarium</p><h2 class="section-heading">Kilka <em>słów</em> o naszej historii</h2><div class="timeline"><div class="timeline-item"><div class="timeline-year">2012</div><div><strong>Narodziny VeloGreen</strong> – otwarcie pierwszego sklepu stacjonarnego w Krakowie.</div></div><div class="timeline-item"><div class="timeline-year">2015</div><div><strong>Start sklepu internetowego</strong> – dotarliśmy do klientów w całej Polsce.</div></div><div class="timeline-item"><div class="timeline-year">2018</div><div><strong>Nagroda "Sklep Roku"</strong> w kategorii akcesoria rowerowe.</div></div><div class="timeline-item"><div class="timeline-year">2022</div><div><strong>10 lat na rynku</strong> – ponad 15 000 zadowolonych klientów.</div></div><div class="timeline-item"><div class="timeline-year">2025</div><div><strong>Nowa kolekcja własna</strong> i plany ekspansji zagranicznej.</div></div></div></div></section>
+
+<footer id="footer"><div class="container"><div class="footer-grid"><div><a href="index.html" class="nav-logo" style="margin-bottom:16px;"><div class="nav-logo-name">VeloGreen</div><div class="nav-logo-sub">Akcesoria Rowerowe</div></a><p style="color:rgba(255,255,255,.6); font-size:.85rem;">Twój zaufany partner w świecie rowerowym od 2012.</p></div><div><div class="footer-col-title">Nawigacja</div><ul class="footer-links"><li><a href="o-firmie.html">O Firmie</a></li><li><a href="oferta.html">Oferta</a></li><li><a href="ciekawostki.html">Ciekawostki</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div><div><div class="footer-col-title">Kategorie</div><ul class="footer-links"><li><a href="oferta.html#kaski">Kaski</a></li><li><a href="oferta.html#oswietlenie">Oświetlenie</a></li><li><a href="oferta.html#odziez">Odzież</a></li><li><a href="oferta.html#czesci">Części</a></li></ul></div></div><div class="footer-bottom"><p>© 2025 VeloGreen. Wszelkie prawa zastrzeżone.</p></div></div></footer>
+
+<script>
+  document.getElementById('hamburger-btn')?.addEventListener('click',()=>{ document.getElementById('mobile-menu')?.classList.toggle('open'); });
+  let cartCount = 0;
+  document.getElementById('cart-count') && (document.getElementById('cart-count').innerText = cartCount);
+  document.getElementById('cart-toggle')?.addEventListener('click',()=>{ alert('Koszyk (demo) - w pełnej wersji dodano produkty'); });
+</script>
+</body>
+</html>
