@@ -1,572 +1,1327 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VeloGreen – Akcesoria Rowerowe</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
-
-  <style>
-    /* ─── TOKENS ─── */
-    :root {
-      --green-deep:    #1A3D2B;
-      --green-mid:     #2D5A3F;
-      --green-accent:  #4E8C6A;
-      --green-light:   #A8CBBA;
-      --white:         #FFFFFF;
-      --off-white:     #F5F7F5;
-      --text:          #1A1A1A;
-      --text-muted:    #5C6B63;
-      --border:        #D8E4DC;
-
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body:    'Inter', system-ui, sans-serif;
-      --font-mono:    'Space Mono', monospace;
-
-      --radius-card:  12px;
-      --shadow-card:  0 4px 24px rgba(26,61,43,.10);
-      --transition:   .3s cubic-bezier(.4,0,.2,1);
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: var(--font-body);
-      color: var(--text);
-      background: var(--white);
-      overflow-x: hidden;
-    }
-
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-    .section-label {
-      font-family: var(--font-mono);
-      font-size: .72rem;
-      letter-spacing: .18em;
-      text-transform: uppercase;
-      color: var(--green-accent);
-      margin-bottom: 12px;
-    }
-
-    /* ═══════════════════════════════════════
-       NAVBAR
-    ═══════════════════════════════════════ */
-    #navbar {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-      height: 80px;
-      background: transparent;
-      transition: background var(--transition), box-shadow var(--transition);
-    }
-    #navbar.scrolled {
-      background: var(--green-deep);
-      box-shadow: 0 4px 24px rgba(0,0,0,.2);
-    }
-    .nav-inner {
-      height: 80px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-
-    /* Logo tekstowe */
-    .nav-logo {
-      display: flex;
-      flex-direction: column;
-      text-decoration: none;
-      line-height: 1.2;
-    }
-    .nav-logo-name {
-      font-family: var(--font-display);
-      font-size: 1.5rem; font-weight: 700;
-      color: var(--white);
-    }
-    .nav-logo-sub {
-      font-family: var(--font-mono);
-      font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
-      color: var(--green-light);
-    }
-
-    /* Desktop menu */
-    .nav-links {
-      display: flex; align-items: center; gap: 6px;
-      list-style: none;
-      margin-left: auto;
-      margin-right: 20px;
-    }
-    .nav-links > li { position: relative; }
-    .nav-links > li > a {
-      font-size: .9rem; font-weight: 500;
-      color: rgba(255,255,255,.92);
-      text-decoration: none;
-      padding: 10px 18px;
-      border-radius: 40px;
-      transition: all var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-    .nav-links > li > a:hover { color: var(--white); background: rgba(255,255,255,.12); }
-    .nav-links > li > a .arrow { font-size: .7rem; transition: transform var(--transition); margin-left: 4px; }
-    .nav-links > li:hover > a .arrow { transform: rotate(180deg); }
-
-    /* Dropdown */
-    .dropdown {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      box-shadow: 0 18px 32px rgba(0,0,0,.12);
-      min-width: 220px;
-      padding: 10px 0;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.25s ease, visibility 0.25s, transform 0.2s;
-      transform: translateY(8px);
-      list-style: none;
-      z-index: 200;
-    }
-    .nav-links > li:hover .dropdown {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-      pointer-events: auto;
-    }
-    .dropdown a {
-      color: var(--text);
-      padding: 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: .85rem;
-      font-weight: 500;
-      transition: background 0.2s;
-      text-decoration: none;
-    }
-    .dropdown a:hover {
-      background: var(--off-white);
-      color: var(--green-deep);
-    }
-
-    /* Koszyk i hamburger */
-    .nav-right {
-      display: flex; align-items: center; gap: 16px;
-    }
-    .nav-cart {
-      position: relative; cursor: pointer;
-      width: 46px; height: 46px;
-      border-radius: 50%;
-      border: none; background: rgba(255,255,255,.12);
-      display: flex; align-items: center; justify-content: center;
-      transition: background var(--transition);
-      color: var(--white);
-    }
-    .nav-cart:hover { background: rgba(255,255,255,.24); }
-    .cart-badge {
-      position: absolute; top: -2px; right: -2px;
-      background: #E63946; color: var(--white);
-      font-family: var(--font-mono); font-size: .62rem; font-weight: 700;
-      width: 20px; height: 20px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      border: 2px solid var(--green-deep);
-    }
-    .hamburger {
-      display: none; flex-direction: column; gap: 5px;
-      background: none; border: none; cursor: pointer; padding: 6px;
-    }
-    .hamburger span {
-      display: block; width: 24px; height: 2px;
-      background: var(--white); border-radius: 2px;
-    }
-
-    /* Mobile menu */
-    #mobile-menu {
-      display: none;
-      position: fixed; top: 80px; left: 0; right: 0;
-      background: var(--green-deep);
-      padding: 24px;
-      z-index: 999;
-      box-shadow: 0 12px 32px rgba(0,0,0,.3);
-    }
-    #mobile-menu.open { display: block; }
-    #mobile-menu a {
-      display: block;
-      color: var(--white); text-decoration: none;
-      padding: 14px 0; font-size: 1rem;
-      border-bottom: 1px solid rgba(255,255,255,.1);
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MOMENTUM CYCLES - Premium Bikes & Components</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    /* ═════════ HERO SLIDER ═════════ */
-    #hero { position: relative; height: 100vh; min-height: 600px; overflow: hidden; }
-    .slides { position: relative; width: 100%; height: 100%; }
-    .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; transition: opacity .8s ease; pointer-events: none; }
-    .slide.active { opacity: 1; pointer-events: auto; }
-    .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; }
-    .slide-bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,61,43,.85) 0%, rgba(26,61,43,.40) 50%, rgba(0,0,0,.20) 100%); }
-    .slide-1 .slide-bg { background: linear-gradient(135deg, #0d2318 0%, #1e4d30 40%, #2d7a50 100%); }
-    .slide-2 .slide-bg { background: linear-gradient(135deg, #162b20 0%, #1a3d2b 50%, #4e8c6a 100%); }
-    .slide-3 .slide-bg { background: linear-gradient(135deg, #0a1a10 0%, #1c3828 60%, #3a6e4e 100%); }
-    .slide-content { position: relative; z-index: 2; padding: 0 0 80px 0; width: 100%; }
-    .slide-content .container { max-width: 900px; margin: 0; padding-left: clamp(24px, 6vw, 100px); }
-    .slide-eyebrow {
-      font-family: var(--font-mono);
-      font-size: .72rem; letter-spacing: .22em;
-      color: var(--green-light);
-      margin-bottom: 18px;
-    }
-    .slide-headline {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 6vw, 5rem);
-      font-weight: 900; line-height: 1.05;
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-    .slide-headline em { color: var(--green-light); font-style: italic; }
-    .slide-body {
-      font-size: clamp(.95rem, 1.5vw, 1.1rem);
-      line-height: 1.7;
-      color: rgba(255,255,255,.80);
-      max-width: 520px;
-      margin-bottom: 36px;
-    }
-    .btn-primary, .btn-outline { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; cursor: pointer; transition: all var(--transition); text-decoration: none; }
-    .btn-primary { background: var(--green-accent); color: var(--white); padding: 14px 28px; font-weight: 600; border: none; }
-    .btn-primary:hover { background: #3A7A58; transform: translateY(-2px); }
-    .btn-outline { background: transparent; color: var(--white); padding: 13px 28px; border: 1.5px solid rgba(255,255,255,.45); }
-    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,.10); }
-    .slider-nav { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; z-index: 10; }
-    .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,.35); border: none; cursor: pointer; }
-    .slider-dot.active { background: var(--white); width: 24px; border-radius: 4px; }
-    .slider-arrows { position: absolute; top: 50%; z-index: 10; width: 100%; display: flex; justify-content: space-between; padding: 0 20px; transform: translateY(-50%); pointer-events: none; }
-    .slider-arrow { pointer-events: auto; width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,.15); border: 1.5px solid rgba(255,255,255,.3); color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background var(--transition); }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* ═════════ STATS ═════════ */
-    #stats-bar { background: var(--green-deep); padding: 28px 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
-    .stat-item { text-align: center; padding: 16px 24px; border-right: 1px solid rgba(255,255,255,.12); }
-    .stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; color: var(--white); }
-    .stat-label { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; color: rgba(255,255,255,.55); text-transform: uppercase; }
+        :root {
+            --primary: #0a0e27;
+            --secondary: #ffffff;
+            --accent-blue: #00d4ff;
+            --accent-green: #00ff88;
+            --accent-blue-dark: #0099cc;
+            --text-primary: #f5f7fa;
+            --text-secondary: #a0aac0;
+            --border-color: #1a2847;
+            --bg-light: #0f1633;
+            --bg-secondary: #141b2f;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-    /* ═════════ ABOUT ═════════ */
-    #about { padding: 100px 0; background: var(--white); }
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
-    .about-image-frame { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, var(--green-deep), var(--green-mid)); border-radius: 18px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.1); font-size: 2rem; }
-    .about-heading { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 900; color: var(--green-deep); margin-bottom: 24px; }
-    .about-heading em { font-style: italic; color: var(--green-accent); }
-    .about-body { font-size: .97rem; line-height: 1.75; color: var(--text-muted); margin-bottom: 20px; }
-    .about-values { margin-top: 36px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .value-chip { display: flex; align-items: flex-start; gap: 12px; padding: 16px; background: var(--off-white); border-radius: 10px; border-left: 3px solid var(--green-accent); }
-    .value-chip-icon { font-size: 1.3rem; }
-    .value-chip-title { font-size: .84rem; font-weight: 600; color: var(--green-deep); margin-bottom: 3px; }
-    .value-chip-text { font-size: .78rem; color: var(--text-muted); }
+        body {
+            font-family: 'Space Grotesk', 'Poppins', sans-serif;
+            color: var(--text-primary);
+            background: var(--primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-    /* ═════════ DLACZEGO MY (nowa sekcja) ═════════ */
-    #why-us { padding: 0 0 80px 0; background: var(--off-white); }
-    .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
-    .feature-card { background: white; padding: 32px 24px; border-radius: 20px; text-align: center; box-shadow: var(--shadow-card); transition: transform var(--transition); }
-    .feature-card:hover { transform: translateY(-5px); }
-    .feature-icon { font-size: 2.5rem; margin-bottom: 20px; }
-    .feature-title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; color: var(--green-deep); margin-bottom: 10px; }
-    .feature-desc { font-size: .85rem; color: var(--text-muted); line-height: 1.6; }
+        /* ====== NAVBAR ====== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 39, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            padding: 1.2rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.05);
+        }
 
-    /* ═════════ PRODUKTY ═════════ */
-    #products { padding: 100px 0; background: var(--white); }
-    .section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 48px; }
-    .section-heading { font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 900; color: var(--green-deep); }
-    .section-heading em { font-style: italic; color: var(--green-accent); }
-    .see-all { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--green-accent); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap var(--transition); }
-    .see-all:hover { gap: 10px; }
-    .filter-tabs { display: flex; gap: 10px; margin-bottom: 36px; flex-wrap: wrap; }
-    .filter-tab { font-family: var(--font-mono); font-size: .7rem; padding: 8px 20px; border-radius: 40px; border: 1px solid var(--border); background: white; cursor: pointer; transition: all var(--transition); }
-    .filter-tab.active, .filter-tab:hover { background: var(--green-deep); color: white; border-color: var(--green-deep); }
-    .products-carousel { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-    .product-card { background: var(--white); border-radius: var(--radius-card); box-shadow: var(--shadow-card); transition: transform var(--transition); overflow: hidden; position: relative; }
-    .product-card:hover { transform: translateY(-6px); }
-    .product-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--green-light); transform: scaleY(0); transform-origin: bottom; transition: transform .4s; z-index: 2; }
-    .product-card:hover::before { transform: scaleY(1); background: var(--green-accent); }
-    .product-image-wrap { aspect-ratio: 4/3; background: #eef3ef; display: flex; align-items: center; justify-content: center; position: relative; }
-    .product-image-wrap img { width: 100%; height: 100%; object-fit: cover; }
-    .product-badge { position: absolute; top: 12px; right: 12px; background: var(--green-deep); color: white; font-family: var(--font-mono); font-size: .65rem; padding: 4px 10px; border-radius: 4px; }
-    .product-badge.sale { background: #E63946; }
-    .product-info { padding: 18px; }
-    .product-cat { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .14em; color: var(--green-accent); margin-bottom: 6px; text-transform: uppercase; }
-    .product-name { font-family: var(--font-display); font-size: 1rem; font-weight: 700; color: var(--green-deep); margin-bottom: 6px; }
-    .product-desc { font-size: .78rem; color: var(--text-muted); margin-bottom: 12px; }
-    .product-rating { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-    .stars { color: #F4A61C; font-size: .85rem; }
-    .product-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--border); }
-    .product-price { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; color: var(--green-deep); }
-    .old-price { font-size: .8rem; font-weight: 400; color: var(--text-muted); text-decoration: line-through; margin-right: 6px; }
-    .add-to-cart { background: var(--green-deep); color: white; border: none; padding: 8px 14px; border-radius: 40px; cursor: pointer; transition: background var(--transition); font-weight: 500; }
-    .add-to-cart:hover { background: var(--green-accent); }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.5px;
+        }
 
-    /* ═════════ OPINIE ═════════ */
-    #testimonials { padding: 100px 0; background: var(--off-white); }
-    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
-    .testimonial-card { background: white; border-radius: var(--radius-card); padding: 30px; border: 1px solid var(--border); }
-    .testimonial-quote { font-family: var(--font-display); font-size: 3rem; line-height: 0.7; color: var(--green-light); margin-bottom: 16px; }
-    .testimonial-text { font-size: .9rem; line-height: 1.7; color: var(--text-muted); margin-bottom: 20px; }
-    .testimonial-author { display: flex; align-items: center; gap: 12px; }
-    .author-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; flex-shrink: 0; background: var(--green-accent); }
-    .author-name { font-size: .88rem; font-weight: 600; color: var(--green-deep); }
-    .author-role { font-family: var(--font-mono); font-size: .68rem; color: var(--text-muted); }
+        .logo:hover {
+            color: var(--accent-green);
+        }
 
-    /* ═════════ BANNER CTA ═════════ */
-    #banner-cta { background: var(--green-deep); padding: 72px 0; position: relative; overflow: hidden; }
-    .banner-inner { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-    .banner-heading { font-family: var(--font-display); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 900; color: var(--white); }
-    .banner-heading em { font-style: italic; color: var(--green-light); }
-    .banner-sub { font-size: .9rem; color: rgba(255,255,255,.65); margin-top: 10px; }
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.3rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
 
-    /* ═════════ STOPKA ═════════ */
-    #footer { background: var(--green-deep); margin-top: 0; }
-    .footer-image { width: 100%; height: auto; max-height: 280px; object-fit: cover; display: block; }
-    .footer-main { padding: 48px 0 32px; }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1.5fr; gap: 40px; margin-bottom: 32px; }
-    .footer-desc { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.5; margin-bottom: 20px; }
-    .footer-col-title { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .18em; color: var(--green-light); margin-bottom: 18px; text-transform: uppercase; }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 10px; }
-    .footer-links a { font-size: .85rem; color: rgba(255,255,255,.6); text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: white; }
-    .newsletter-form input { width: 100%; padding: 12px; border-radius: 8px; border: none; background: rgba(255,255,255,.1); color: white; margin-bottom: 10px; outline: none; }
-    .newsletter-form input::placeholder { color: rgba(255,255,255,.4); }
-    .newsletter-form button { background: var(--green-accent); border: none; padding: 12px; border-radius: 8px; color: white; font-weight: bold; width: 100%; cursor: pointer; transition: background var(--transition); }
-    .newsletter-form button:hover { background: #3A7A58; }
-    .footer-bottom { border-top: 1px solid rgba(255,255,255,.1); padding-top: 24px; display: flex; justify-content: space-between; flex-wrap: wrap; font-size: .7rem; color: rgba(255,255,255,.4); }
+        .nav-links {
+            display: flex;
+            gap: 3.5rem;
+            list-style: none;
+        }
 
-    /* ═════════ CART DRAWER ═════════ */
-    .cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 380px; background: white; z-index: 2001; transform: translateX(100%); transition: transform .3s; display: flex; flex-direction: column; box-shadow: -4px 0 24px rgba(0,0,0,.1); }
-    .cart-drawer.open { transform: translateX(0); }
-    .cart-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.2s; }
-    .cart-backdrop.open { opacity: 1; visibility: visible; }
-    .cart-drawer-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .cart-drawer-title { font-family: var(--font-display); font-size: 1.2rem; font-weight: 700; color: var(--green-deep); }
-    .cart-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted); }
-    .cart-items { flex: 1; overflow-y: auto; padding: 20px; }
-    .cart-empty { text-align: center; color: var(--text-muted); padding: 40px 0; }
-    .cart-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: center; }
-    .cart-item-info { flex: 1; }
-    .cart-item-name { font-size: .85rem; font-weight: 600; color: var(--green-deep); }
-    .cart-item-price { font-size: .8rem; color: var(--green-accent); }
-    .cart-item-qty { display: flex; align-items: center; gap: 8px; }
-    .qty-btn { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--border); background: none; cursor: pointer; }
-    .cart-footer { padding: 20px; border-top: 1px solid var(--border); }
-    .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-weight: 600; }
-    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--green-deep); color: white; padding: 10px 20px; border-radius: 40px; transition: 0.2s; z-index: 3000; opacity: 0; }
-    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 0.3px;
+        }
 
-    @media (max-width: 1024px) { .products-carousel { grid-template-columns: repeat(3,1fr); } .features-grid { grid-template-columns: repeat(2,1fr); } .footer-grid { grid-template-columns: 1fr 1fr; } }
-    @media (max-width: 768px) { .nav-links { display: none; } .hamburger { display: flex; } .products-carousel { grid-template-columns: repeat(2,1fr); } .about-grid { grid-template-columns: 1fr; } .testimonials-grid { grid-template-columns: 1fr; } .features-grid { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: repeat(2,1fr); } }
-  </style>
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-green));
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-blue);
+        }
+
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-secondary {
+            padding: 0.7rem 1.8rem;
+            border: 1.5px solid rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.05);
+            color: var(--accent-blue);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        /* ====== HERO SLIDER ====== */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--bg-secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .slides-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5rem;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            z-index: 5;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+
+        .slide-content {
+            flex: 1;
+            max-width: 600px;
+            z-index: 10;
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .slide.active .slide-content {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-content h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.1;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .slide-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            line-height: 1.8;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .slide-cta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1.1rem 3rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 212, 255, 0.4);
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .slide-image {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        .slide.active .slide-image {
+            animation: slideInRight 0.8s ease forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .slide-image-placeholder {
+            width: 450px;
+            height: 450px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 5rem;
+            text-align: center;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1), inset 0 0 40px rgba(0, 255, 136, 0.05);
+            position: relative;
+        }
+
+        .slide-image-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green), var(--accent-blue));
+            border-radius: 20px;
+            opacity: 0;
+            z-index: -1;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 0.3; }
+        }
+
+        .slider-dots {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 16px;
+            z-index: 20;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(0, 212, 255, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 212, 255, 0.4);
+        }
+
+        .dot:hover {
+            background: rgba(0, 212, 255, 0.4);
+        }
+
+        .dot.active {
+            background: var(--accent-blue);
+            width: 40px;
+            border-radius: 6px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+            border: 1px solid var(--accent-blue);
+        }
+
+        /* ====== FEATURED SECTION ====== */
+        .featured-section {
+            padding: 8rem 3rem;
+            background: var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.05) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header h2 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, rgba(20, 27, 47, 0.8), rgba(15, 22, 51, 0.6));
+            border-radius: 16px;
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 4rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .product-info {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            letter-spacing: 1.5px;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.3px;
+        }
+
+        .product-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            line-height: 1.6;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .product-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            color: var(--primary);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: var(--transition);
+            font-size: 0.9rem;
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* ====== CATEGORIES SECTION ====== */
+        .categories-section {
+            padding: 8rem 3rem;
+            background: linear-gradient(135deg, var(--bg-secondary), var(--primary));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .categories-section::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.05) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card {
+            background: rgba(20, 27, 47, 0.5);
+            border-radius: 14px;
+            padding: 2.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .category-card:hover {
+            border-color: var(--accent-green);
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.15);
+        }
+
+        .category-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.15);
+        }
+
+        .category-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.3px;
+        }
+
+        /* ====== NEWSLETTER ====== */
+        .newsletter-section {
+            padding: 6rem 3rem;
+            background: linear-gradient(135deg, #0a0e27 0%, rgba(0, 212, 255, 0.05) 100%);
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .newsletter-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .newsletter-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .newsletter-content h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--text-primary), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .newsletter-content p {
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            min-width: 250px;
+            padding: 1.1rem 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(20, 27, 47, 0.6);
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .newsletter-form input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .newsletter-form input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .newsletter-form button {
+            padding: 1.1rem 2.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-green));
+            color: var(--primary);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .newsletter-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 35px rgba(0, 212, 255, 0.4);
+        }
+
+        /* ====== FOOTER ====== */
+        .footer {
+            background: var(--primary);
+            color: var(--text-secondary);
+            padding: 5rem 3rem 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        .footer-bg-section {
+            position: relative;
+            height: 350px;
+            margin-bottom: 4rem;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(0, 255, 136, 0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 212, 255, 0.05);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 3.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.3px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 1rem;
+        }
+
+        .footer-column a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            font-size: 0.95rem;
+            letter-spacing: 0.2px;
+        }
+
+        .footer-column a:hover {
+            color: var(--accent-blue);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.8rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-blue);
+            transform: translateY(-3px);
+        }
+
+        /* ====== RESPONSIVE ====== */
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 2rem;
+            }
+
+            .slide-content h1 {
+                font-size: 3rem;
+            }
+
+            .slide-image-placeholder {
+                width: 350px;
+                height: 350px;
+                font-size: 4rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                gap: 1.2rem;
+                font-size: 0.85rem;
+            }
+
+            .slide {
+                flex-direction: column;
+                padding: 2rem 1.5rem;
+                text-align: center;
+            }
+
+            .slide-content {
+                max-width: 100%;
+            }
+
+            .slide-content h1 {
+                font-size: 2.2rem;
+            }
+
+            .slide-content p {
+                font-size: 1rem;
+            }
+
+            .slide-cta {
+                justify-content: center;
+            }
+
+            .slide-image {
+                margin-top: 2rem;
+                flex: none;
+            }
+
+            .slide-image-placeholder {
+                width: 300px;
+                height: 300px;
+                font-size: 3rem;
+            }
+
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+
+            .section-header p {
+                font-size: 1rem;
+            }
+
+            .hero-section {
+                height: 90vh;
+                padding: 2rem 0;
+            }
+
+            .featured-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .categories-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+
+            .newsletter-form input,
+            .newsletter-form button {
+                width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .nav-links {
+                gap: 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .btn-secondary {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .slide {
+                padding: 1.5rem 1rem;
+            }
+
+            .slide-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .slide-content p {
+                font-size: 0.9rem;
+            }
+
+            .slide-cta {
+                gap: 0.8rem;
+            }
+
+            .btn-primary {
+                padding: 0.9rem 1.8rem;
+                font-size: 0.85rem;
+            }
+
+            .slide-image-placeholder {
+                width: 250px;
+                height: 250px;
+                font-size: 2.5rem;
+            }
+
+            .hero-section {
+                height: 80vh;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .categories-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .category-card {
+                padding: 1.5rem;
+            }
+
+            .newsletter-content h2 {
+                font-size: 1.8rem;
+            }
+
+            .footer-bg-section {
+                height: 250px;
+                margin-bottom: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer {
+                padding: 3rem 1.5rem 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- ═══ NAVBAR ═══ -->
-<nav id="navbar">
-  <div class="container">
-    <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <div class="nav-logo-name">VeloGreen</div>
-        <div class="nav-logo-sub">Akcesoria Rowerowe</div>
-      </a>
+<!-- ====== NAVBAR ====== -->
+<nav class="navbar">
+    <a href="#" class="logo">
+        <div class="logo-icon">⚡</div>
+        <span>MOMENTUM CYCLES</span>
+    </a>
+    
+    <ul class="nav-links">
+        <li><a href="#about">O Nas</a></li>
+        <li><a href="#offer">Oferta</a></li>
+        <li><a href="#blog">Blog</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+    </ul>
 
-      <ul class="nav-links">
-        <li>
-          <a href="ofirmie.html">O Firmie <span class="arrow">▾</span></a>
-          <ul class="dropdown">
-            <li><a href="ofirmie.html#historia">Nasza historia</a></li>
-            <li><a href="ofirmie.html#zespol">Nasz zespół</a></li>
-            <li><a href="ofirmie.html#wartosci">Wartości</a></li>
-            <li><a href="ofirmie.html#misja">Misja i wizja</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="oferta.html">Oferta <span class="arrow">▾</span></a>
-          <ul class="dropdown">
-            <li><a href="oferta.html#kaski">Kaski</a></li>
-            <li><a href="oferta.html#oswietlenie">Oświetlenie</a></li>
-            <li><a href="oferta.html#odziez">Odzież</a></li>
-            <li><a href="oferta.html#czesci">Części</a></li>
-            <li><a href="oferta.html#akcesoria">Akcesoria</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="ciekawostki.html">Ciekawostki <span class="arrow">▾</span></a>
-          <ul class="dropdown">
-            <li><a href="ciekawostki.html#blog">Blog</a></li>
-            <li><a href="ciekawostki.html#trasy">Trasy rowerowe</a></li>
-            <li><a href="ciekawostki.html#poradniki">Poradniki</a></li>
-          </ul>
-        </li>
-        <li><a href="kontakt.html">Kontakt</a></li>
-        <li><a href="oferta.html" style="background: var(--green-accent); color: white; border-radius: 40px; padding: 8px 22px;">Sklep →</a></li>
-      </ul>
-
-      <div class="nav-right">
-        <button class="nav-cart" id="cart-toggle" title="Koszyk">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/>
-          </svg>
-          <span class="cart-badge" id="cart-count">0</span>
-        </button>
-        <button class="hamburger" id="hamburger-btn" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+    <div class="nav-cta">
+        <button class="btn-secondary">Koszyk (0)</button>
     </div>
-  </div>
 </nav>
 
-<div id="mobile-menu">
-  <a href="o-firmie.html">O Firmie</a>
-  <a href="oferta.html">Oferta</a>
-  <a href="ciekawostki.html">Ciekawostki</a>
-  <a href="kontakt.html">Kontakt</a>
-  <a href="oferta.html">Sklep →</a>
-</div>
-
-<!-- ═══ HERO SLIDER ═══ -->
-<section id="hero">
-  <div class="slides">
-    <div class="slide slide-1 active">
-      <div class="slide-bg"></div>
-      <div class="slide-content"><div class="container"><p class="slide-eyebrow">// Sezon 2025</p><h1 class="slide-headline">Jedź dalej.<br><em>Żyj pełniej.</em></h1><p class="slide-body">Profesjonalne akcesoria rowerowe dla każdego — od weekendowych wycieczek po zawodowe starty.</p><div class="slide-actions"><a href="oferta.html" class="btn-primary">Odkryj ofertę →</a></div></div></div>
-    </div>
-    <div class="slide slide-2">
-      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// MTB kolekcja</p><h1 class="slide-headline">Góry czekają<br><em>na Ciebie.</em></h1><p class="slide-body">Nowa kolekcja sprzętu do jazdy górskiej — kaski, ochraniacze, oświetlenie na trudne szlaki.</p><div class="slide-actions"><a href="oferta.html" class="btn-primary">Zobacz MTB →</a></div></div></div>
-    </div>
-    <div class="slide slide-3">
-      <div class="slide-bg"></div><div class="slide-content"><div class="container"><p class="slide-eyebrow">// Bezpieczeństwo</p><h1 class="slide-headline">Wyposażony.<br><em>Chroniony.</em></h1><p class="slide-body">Kask to nie tylko przepis — to spokój ducha. Sprawdź nasze certyfikowane kaski.</p><div class="slide-actions"><a href="oferta.html#kaski" class="btn-primary">Kaski i ochrona →</a></div></div></div>
-    </div>
-  </div>
-  <div class="slider-arrows"><button class="slider-arrow" id="prev-slide">←</button><button class="slider-arrow" id="next-slide">→</button></div>
-  <div class="slider-nav"><button class="slider-dot active" data-idx="0"></button><button class="slider-dot" data-idx="1"></button><button class="slider-dot" data-idx="2"></button></div>
-</section>
-
-<!-- ═══ STATS ═══ -->
-<section id="stats-bar"><div class="container"><div class="stats-grid"><div class="stat-item"><div class="stat-num">12+</div><div class="stat-label">Lat na rynku</div></div><div class="stat-item"><div class="stat-num">2k</div><div class="stat-label">Produktów</div></div><div class="stat-item"><div class="stat-num">18k</div><div class="stat-label">Klientów</div></div><div class="stat-item"><div class="stat-num">4.9★</div><div class="stat-label">Średnia ocena</div></div></div></div></section>
-
-<!-- ═══ O NAS ═══ -->
-<section id="about">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-image-frame">🚲 VeloGreen od 2012</div>
-      <div class="about-text">
-        <p class="section-label">// Kim jesteśmy</p>
-        <h2 class="about-heading">Pasja do jazdy,<br><em>ekspertyza w sprzęcie.</em></h2>
-        <p class="about-body">VeloGreen narodziło się z prostej obserwacji: rowerzyści zasługują na lepszy sprzęt i lepsze doradztwo. Od 2012 roku łączymy pasję do kolarstwa z rzetelną wiedzą techniczną.</p>
-        <p class="about-body">Nasz magazyn w Krakowie mieści ponad 2000 produktów — od kasków renomowanych marek po inteligentne oświetlenie LED, od bidonów po systemy sakw na wyprawy wielodniowe.</p>
-        <div class="about-values">
-          <div class="value-chip"><div class="value-chip-icon">🌿</div><div><div class="value-chip-title">Eko-podejście</div><div class="value-chip-text">Promujemy rower jako zrównoważony transport</div></div></div>
-          <div class="value-chip"><div class="value-chip-icon">🔬</div><div><div class="value-chip-title">Testy sprzętu</div><div class="value-chip-text">Każdy produkt testujemy w realnych warunkach</div></div></div>
-          <div class="value-chip"><div class="value-chip-icon">🤝</div><div><div class="value-chip-title">Doradztwo</div><div class="value-chip-text">Nasi eksperci zawsze chętnie pomogą</div></div></div>
-          <div class="value-chip"><div class="value-chip-icon">🚚</div><div><div class="value-chip-title">Szybka dostawa</div><div class="value-chip-text">Wysyłka w 24h, darmowa od 199 zł</div></div></div>
+<!-- ====== HERO SLIDER ====== -->
+<section class="hero-section">
+    <div class="slides-container">
+        <!-- Slide 1: Bikes -->
+        <div class="slide active">
+            <div class="slide-content">
+                <h1>Odkryj Perfekcyjny Rower</h1>
+                <p>Od treningowych gravel bikes po zaawansowane MTB. Najlepsze marki na jednym miejscu.</p>
+                <div class="slide-cta">
+                    <button class="btn-primary">Sprawdź Ofertę</button>
+                    <button class="btn-secondary">Poznaj Nas</button>
+                </div>
+            </div>
+            <div class="slide-image">
+                <div class="slide-image-placeholder">🚴 Obrazek Roweru #1</div>
+            </div>
         </div>
-      </div>
+
+        <!-- Slide 2: E-Bikes -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>E-Bikes Przyszłości</h1>
+                <p>Elektryczne rowery z zasięgiem do 200km. Nowa era mobilności i przygód.</p>
+                <div class="slide-cta">
+                    <button class="btn-primary">Sprawdź Ofertę</button>
+                    <button class="btn-secondary">Poznaj Nas</button>
+                </div>
+            </div>
+            <div class="slide-image">
+                <div class="slide-image-placeholder">🔋 E-Bike Model</div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Components -->
+        <div class="slide">
+            <div class="slide-content">
+                <h1>Części Najwyższej Klasy</h1>
+                <p>Osprzęt rowerowy od Shimano, SRAM, Fox. Komponenty profesjonalne dla wymagających.</p>
+                <div class="slide-cta">
+                    <button class="btn-primary">Sprawdź Ofertę</button>
+                    <button class="btn-secondary">Poznaj Nas</button>
+                </div>
+            </div>
+            <div class="slide-image">
+                <div class="slide-image-placeholder">⚙️ Komponenty Premium</div>
+            </div>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- ═══ DLACZEGO MY (nowa sekcja) ═══ -->
-<section id="why-us">
-  <div class="container">
-    <p class="section-label">// Dlaczego VeloGreen?</p>
-    <h2 class="section-heading">Co nas <em>wyróżnia</em></h2>
-    <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon">🏆</div><div class="feature-title">Nagradzane produkty</div><div class="feature-desc">Tylko sprawdzone marki i modele wyróżniane w testach branżowych.</div></div>
-      <div class="feature-card"><div class="feature-icon">🔧</div><div class="feature-title">Serwis i montaż</div><div class="feature-desc">Pomagamy w doborze i montażu akcesoriów – stacjonarnie i online.</div></div>
-      <div class="feature-card"><div class="feature-icon">📦</div><div class="feature-title">30 dni na zwrot</div><div class="feature-desc">Bezproblemowe zwroty i wymiana – kupujesz bez ryzyka.</div></div>
-      <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">4.9/5 od 18k klientów</div><div class="feature-desc">Zaufali nam tysiące rowerzystów w całej Polsce.</div></div>
+    <!-- Slider Controls -->
+    <div class="slider-dots">
+        <button class="dot active" onclick="currentSlide(0)"></button>
+        <button class="dot" onclick="currentSlide(1)"></button>
+        <button class="dot" onclick="currentSlide(2)"></button>
     </div>
-  </div>
 </section>
 
-<!-- ═══ PRODUKTY ═══ -->
-<section id="products">
-  <div class="container">
-    <div class="section-header"><div><p class="section-label">// Asortyment</p><h2 class="section-heading">Wybrane <em>produkty</em></h2></div><a href="oferta.html" class="see-all">Pełna oferta →</a></div>
-    <div class="filter-tabs"><button class="filter-tab active" data-filter="all">Wszystkie</button><button class="filter-tab" data-filter="kaski">Kaski</button><button class="filter-tab" data-filter="oswietlenie">Oświetlenie</button><button class="filter-tab" data-filter="odziez">Odzież</button><button class="filter-tab" data-filter="czesci">Części</button><button class="filter-tab" data-filter="akcesoria">Akcesoria</button></div>
-    <div class="products-carousel" id="products-grid"></div>
-  </div>
-</section>
-
-<!-- ═══ OPINIE ═══ -->
-<section id="testimonials">
-  <div class="container">
-    <p class="section-label">// Opinie klientów</p>
-    <h2 class="section-heading">Co mówią <em>rowerzyści</em></h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Zamówiłem kask i latarkę — przesyłka dotarła następnego dnia. Obsługa klienta na najwyższym poziomie, doradzili mi idealny rozmiar.</p><div class="testimonial-author"><div class="author-avatar">M</div><div><div class="author-name">Michał K.</div><div class="author-role">Kolarz górski · Kraków</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Kupuję tu od 3 lat. Jakość produktów jest nieporównywalnie lepsza niż w marketach. Ostatnio kupiłem komputer Garmin — bezbłędna konfiguracja.</p><div class="testimonial-author"><div class="author-avatar">A</div><div><div class="author-name">Anna W.</div><div class="author-role">Rowerzystka szosowa · Warszawa</div></div></div></div>
-      <div class="testimonial-card"><div class="testimonial-quote">"</div><p class="testimonial-text">Świetny sklep dla amatorów bikepackingu. Znalazłem tu kompletny system sakw Ortlieb w dobrej cenie. Polecam!</p><div class="testimonial-author"><div class="author-avatar">T</div><div><div class="author-name">Tomasz R.</div><div class="author-role">Bikepacker · Zakopane</div></div></div></div>
+<!-- ====== CATEGORIES ====== -->
+<section class="categories-section" id="offer">
+    <div class="section-header">
+        <h2>Kategorie Produktów</h2>
+        <p>Znaleźć to czego szukasz w kilka sekund</p>
     </div>
-  </div>
-</section>
-
-<!-- ═══ BANNER CTA ═══ -->
-<section id="banner-cta">
-  <div class="container"><div class="banner-inner"><div><p class="section-label">// Specjalna oferta</p><h2 class="banner-heading">Wiosenne <em>porządki</em> w sprzęcie?<br>Darmowa dostawa do końca miesiąca.</h2><p class="banner-sub">Skompletuj zestaw na sezon i odbierz darmową wysyłkę. Kod: <strong style="color:var(--green-light)">WIOSNA25</strong></p></div><div><a href="oferta.html" class="btn-primary" style="background:var(--white);color:var(--green-deep);">Kupuj teraz →</a></div></div></div>
-</section>
-
-<!-- ═══ STOPKA ═══ -->
-<footer id="footer">
-  <div class="footer-main">
-    <div class="container">
-      <div class="footer-grid">
-        <div><a href="index.html" class="nav-logo" style="margin-bottom:16px;"><div class="nav-logo-name">VeloGreen</div><div class="nav-logo-sub">Akcesoria Rowerowe</div></a><p class="footer-desc">Twój zaufany partner w świecie rowerowym od 2012 roku. Sprzęt, który pokochałeś.</p></div>
-        <div><div class="footer-col-title">Nawigacja</div><ul class="footer-links"><li><a href="o-firmie.html">O Firmie</a></li><li><a href="oferta.html">Oferta</a></li><li><a href="ciekawostki.html">Ciekawostki</a></li><li><a href="kontakt.html">Kontakt</a></li></ul></div>
-        <div><div class="footer-col-title">Kategorie</div><ul class="footer-links"><li><a href="oferta.html#kaski">Kaski</a></li><li><a href="oferta.html#oswietlenie">Oświetlenie</a></li><li><a href="oferta.html#odziez">Odzież</a></li><li><a href="oferta.html#czesci">Części</a></li><li><a href="oferta.html#akcesoria">Akcesoria</a></li></ul></div>
-        <div class="footer-newsletter"><div class="footer-col-title">Newsletter</div><p>Bądź na bieżąco z nowościami i promocjami.</p><div class="newsletter-form"><input type="email" placeholder="Twój e-mail" id="newsletter-email"><button onclick="subscribeNewsletter()">Zapisuję się →</button></div></div>
-      </div>
-      <div class="footer-bottom"><p>© 2025 VeloGreen. Wszelkie prawa zastrzeżone.</p><div><a href="#" style="color:rgba(255,255,255,.4);">Polityka prywatności</a> | <a href="#" style="color:rgba(255,255,255,.4);">Regulamin</a></div></div>
+    
+    <div class="categories-grid">
+        <div class="category-card">
+            <div class="category-icon">🚴</div>
+            <div class="category-name">Road Bikes</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🏔️</div>
+            <div class="category-name">Mountain Bikes</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🌾</div>
+            <div class="category-name">Gravel Bikes</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🔋</div>
+            <div class="category-name">E-Bikes</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">⚙️</div>
+            <div class="category-name">Komponenty</div>
+        </div>
+        <div class="category-card">
+            <div class="category-icon">🧣</div>
+            <div class="category-name">Odzież & Akcesoria</div>
+        </div>
     </div>
-  </div>
+</section>
+
+<!-- ====== FEATURED PRODUCTS ====== -->
+<section class="featured-section">
+    <div class="section-header">
+        <h2>Bestsellery</h2>
+        <p>Najpopularniejsze modele tego sezonu</p>
+    </div>
+
+    <div class="products-grid">
+        <!-- Product 1 -->
+        <div class="product-card">
+            <div class="product-image">🚴 PRO-1</div>
+            <div class="product-info">
+                <span class="product-category">Road Bike</span>
+                <h3 class="product-name">MOMENTUM PRO 2025</h3>
+                <p class="product-desc">Lekka rama Carbon, przerzutki Shimano 105, idealna do maratonów i treningów.</p>
+                <div class="product-footer">
+                    <span class="product-price">4.299 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 2 -->
+        <div class="product-card">
+            <div class="product-image">🏔️ MTB-2</div>
+            <div class="product-info">
+                <span class="product-category">Mountain Bike</span>
+                <h3 class="product-name">TRAIL HUNTER 3000</h3>
+                <p class="product-desc">27.5" koła, zawieszenie 150mm, rama aluminiowa, idealna do trudnych tras.</p>
+                <div class="product-footer">
+                    <span class="product-price">3.899 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 3 -->
+        <div class="product-card">
+            <div class="product-image">🌾 GRV-3</div>
+            <div class="product-info">
+                <span class="product-category">Gravel Bike</span>
+                <h3 class="product-name">GRAVEL KING LITE</h3>
+                <p class="product-desc">Uniwersalny rower do asfaltu i offroadów. 1x12 SRAM, opony do 50mm.</p>
+                <div class="product-footer">
+                    <span class="product-price">3.299 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 4 -->
+        <div class="product-card">
+            <div class="product-image">🔋 EBIKE-4</div>
+            <div class="product-info">
+                <span class="product-category">E-Bike</span>
+                <h3 class="product-name">E-MOMENTUM URBAN 500</h3>
+                <p class="product-desc">Motor 500W, bateria 625Wh, zasięg do 180km, idealna do miasta.</p>
+                <div class="product-footer">
+                    <span class="product-price">7.999 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 5 -->
+        <div class="product-card">
+            <div class="product-image">⚙️ KOMP-5</div>
+            <div class="product-info">
+                <span class="product-category">Komponenty</span>
+                <h3 class="product-name">SHIMANO 105 R7100</h3>
+                <p class="product-desc">Przerzutki rowerowe pro-level. Idealne do modernizacji starego roweru.</p>
+                <div class="product-footer">
+                    <span class="product-price">1.899 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product 6 -->
+        <div class="product-card">
+            <div class="product-image">🧣 ACC-6</div>
+            <div class="product-info">
+                <span class="product-category">Akcesoria</span>
+                <h3 class="product-name">KASK PRO AERO CARBON</h3>
+                <p class="product-desc">Aero design, waga 250g, certyfikat MIPS, oddychająca siatka.</p>
+                <div class="product-footer">
+                    <span class="product-price">899 zł</span>
+                    <button class="product-btn">Dodaj</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ====== NEWSLETTER ====== -->
+<section class="newsletter-section">
+    <div class="newsletter-content">
+        <h2>Bądź na Bieżąco</h2>
+        <p>Zapisz się na newsletter i otrzymaj 10% rabatu na pierwsze zamówienie</p>
+        <form class="newsletter-form" onsubmit="return handleNewsletter(event)">
+            <input type="email" placeholder="Twój email" required>
+            <button type="submit">Zapisz się</button>
+        </form>
+    </div>
+</section>
+
+<!-- ====== FOOTER ====== -->
+<footer class="footer">
+    <div class="footer-bg-section">
+        🏔️ Tutaj będzie Epic Footer Graphic - Rowery na tle gór (do wygenerowania w Gemini)
+    </div>
+
+    <div class="footer-content">
+        <div class="footer-column">
+            <h3>O Nas</h3>
+            <ul>
+                <li><a href="#about">Kim Jesteśmy</a></li>
+                <li><a href="#">Nasza Historia</a></li>
+                <li><a href="#">Kariery</a></li>
+                <li><a href="#">Blog</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Oferta</h3>
+            <ul>
+                <li><a href="#">Wszystkie Rowery</a></li>
+                <li><a href="#">Części & Akcesoria</a></li>
+                <li><a href="#">E-Bikes</a></li>
+                <li><a href="#">Odzież Rowerowa</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Wsparcie</h3>
+            <ul>
+                <li><a href="#">Dostarczanie</a></li>
+                <li><a href="#">Zwroty & Zamiana</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-column">
+            <h3>Kontakt</h3>
+            <ul>
+                <li><a href="tel:+48123456789">+48 123 456 789</a></li>
+                <li><a href="mailto:hello@momentumcycles.pl">hello@momentumcycles.pl</a></li>
+                <li>Al. Zwycięstwa 10/1</li>
+                <li>31-999 Kraków, Polska</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2025 MOMENTUM CYCLES. Wszystkie prawa zastrzeżone.</p>
+        <div class="social-links">
+            <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+            <a href="#" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="#" title="TikTok"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <a href="#">Polityka Prywatności</a>
+    </div>
 </footer>
 
-<!-- Koszyk drawer -->
-<div class="cart-backdrop" id="cart-backdrop"></div>
-<div class="cart-drawer" id="cart-drawer"><div class="cart-drawer-header"><div class="cart-drawer-title">Koszyk</div><button class="cart-close" id="cart-close">✕</button></div><div class="cart-items" id="cart-items-list"></div><div class="cart-footer" id="cart-footer" style="display:none;"><div class="cart-total"><span>Łącznie:</span><span id="cart-total-display">0 zł</span></div><a href="koszyk.html" class="btn-primary" style="width:100%;text-align:center;">Przejdź do kasy</a></div></div>
-<div class="toast" id="toast"></div>
-
 <script>
-  const productsData = [
-    { id:1, name:"Kask Uvex Rise CC", cat:"kaski", filter:"kaski", price:449, oldPrice:529, badge:"sale", desc:"Kask szosowy z MIPS, wentylacja.", rating:4.8, reviews:142, img:"kask1.webp" },
-    { id:2, name:"Latarka Lezyne 1400", cat:"oswietlenie", filter:"oswietlenie", price:299, badge:"new", desc:"1400 lumenów, USB-C.", rating:4.9, reviews:88, img:"oswietlenie1.webp" },
-    { id:3, name:"Spodenki Castelli", cat:"odziez", filter:"odziez", price:189, oldPrice:239, badge:"sale", desc:"Wkładka Progetto X2.", rating:4.6, reviews:55, img:"odziez1.webp" },
-    { id:4, name:"Garmin Edge 540", cat:"czesci", filter:"czesci", price:1249, desc:"GPS, mapy Europy.", rating:4.9, reviews:204, img:"komputer1.webp" },
-    { id:5, name:"Sakwa Ortlieb", cat:"akcesoria", filter:"akcesoria", price:349, desc:"40L, wodoszczelna.", rating:4.8, reviews:73, img:"sakwa1.webp" },
-    { id:6, name:"Opony Continental GP5000", cat:"czesci", filter:"czesci", price:229, desc:"700x28c, para.", rating:4.7, reviews:317, img:"opona1.webp" },
-    { id:7, name:"Kask Giro Syntax", cat:"kaski", filter:"kaski", price:579, badge:"new", desc:"System MIPS Spherical.", rating:4.9, reviews:91, img:"kask2.webp" },
-    { id:8, name:"Rękawiczki Specialized", cat:"odziez", filter:"odziez", price:139, desc:"Żelowe wkładki.", rating:4.5, reviews:48, img:"rekawiczki1.webp" }
-  ];
-  let cart = [];
-  function renderStars(r){ let s='★'.repeat(Math.floor(r)); s+='☆'.repeat(5-Math.floor(r)); return s; }
-  function renderProducts(filter='all'){
-    const grid=document.getElementById('products-grid');
-    const filtered=filter==='all'?productsData:productsData.filter(p=>p.filter===filter);
-    grid.innerHTML=filtered.map(p=>`<div class="product-card"><div class="product-image-wrap"><img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/400x300?text=${p.img}'">${p.badge?`<span class="product-badge ${p.badge==='sale'?'sale':'new'}">${p.badge==='sale'?'SALE':'NOWOŚĆ'}</span>`:''}</div><div class="product-info"><div class="product-cat">${p.cat}</div><div class="product-name">${p.name}</div><div class="product-desc">${p.desc}</div><div class="product-rating"><span class="stars">${renderStars(p.rating)}</span> <span>${p.rating} (${p.reviews})</span></div><div class="product-footer"><div class="product-price">${p.oldPrice?`<span class="old-price">${p.oldPrice} zł</span> `:''}${p.price} zł</div><button class="add-to-cart" onclick="addToCart(${p.id})">Dodaj</button></div></div></div>`).join('');
-  }
-  function addToCart(id){ let p=productsData.find(x=>x.id===id); let ex=cart.find(i=>i.id===id); if(ex) ex.qty++; else cart.push({...p,qty:1}); updateCartUI(); showToast(`Dodano ${p.name}`);}
-  function removeFromCart(id){ cart=cart.filter(i=>i.id!==id); updateCartUI();}
-  function changeQty(id,delta){ let item=cart.find(i=>i.id===id); if(item){ item.qty+=delta; if(item.qty<=0) removeFromCart(id); else updateCartUI();}}
-  function updateCartUI(){ let total=cart.reduce((s,i)=>s+i.price*i.qty,0); let count=cart.reduce((s,i)=>s+i.qty,0); document.getElementById('cart-count').innerText=count; let list=document.getElementById('cart-items-list'); let footer=document.getElementById('cart-footer'); if(cart.length===0){ list.innerHTML='<div class="cart-empty"><p>Koszyk jest pusty</p></div>'; footer.style.display='none';} else { list.innerHTML=cart.map(i=>`<div class="cart-item"><div class="cart-item-info"><div class="cart-item-name">${i.name}</div><div class="cart-item-price">${i.price} zł</div></div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty(${i.id},-1)">-</button><span>${i.qty}</span><button class="qty-btn" onclick="changeQty(${i.id},1)">+</button><button onclick="removeFromCart(${i.id})">✕</button></div></div>`).join(''); document.getElementById('cart-total-display').innerText=total.toFixed(2)+' zł'; footer.style.display='block';}}
-  function showToast(m){ let t=document.getElementById('toast'); t.innerText=m; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500);}
-  document.getElementById('cart-toggle').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.add('open'); document.getElementById('cart-backdrop').classList.add('open');});
-  document.getElementById('cart-close').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('cart-backdrop').classList.remove('open');});
-  document.getElementById('cart-backdrop').addEventListener('click',()=>{ document.getElementById('cart-drawer').classList.remove('open'); document.getElementById('cart-backdrop').classList.remove('open');});
-  document.querySelectorAll('.filter-tab').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); renderProducts(btn.dataset.filter);});});
-  let currentSlide=0, slides=document.querySelectorAll('.slide'), dots=document.querySelectorAll('.slider-dot');
-  function goToSlide(n){ slides[currentSlide].classList.remove('active'); dots[currentSlide].classList.remove('active'); currentSlide=(n+slides.length)%slides.length; slides[currentSlide].classList.add('active'); dots[currentSlide].classList.add('active');}
-  document.getElementById('next-slide').addEventListener('click',()=>goToSlide(currentSlide+1)); document.getElementById('prev-slide').addEventListener('click',()=>goToSlide(currentSlide-1)); dots.forEach(d=>d.addEventListener('click',()=>goToSlide(+d.dataset.idx)));
-  setInterval(()=>goToSlide(currentSlide+1),5000);
-  window.addEventListener('scroll',()=>{ document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);});
-  document.getElementById('hamburger-btn').addEventListener('click',()=>{ document.getElementById('mobile-menu').classList.toggle('open');});
-  function subscribeNewsletter(){ let e=document.getElementById('newsletter-email'); if(e.value.includes('@')){ showToast('Zapisano do newslettera!'); e.value='';} else showToast('Podaj poprawny e-mail.');}
-  renderProducts(); updateCartUI();
-  console.log('📸 Prompty dla Gemini: kask1.webp, oswietlenie1.webp, odziez1.webp, komputer1.webp, sakwa1.webp, opona1.webp, kask2.webp, rekawiczki1.webp - styl premium, tło jasne/neutralne');
+    let currentSlideIndex = 0;
+
+    function showSlide(n) {
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        if (n >= slides.length) currentSlideIndex = 0;
+        if (n < 0) currentSlideIndex = slides.length - 1;
+
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        slides[currentSlideIndex].classList.add('active');
+        dots[currentSlideIndex].classList.add('active');
+    }
+
+    function currentSlide(n) {
+        currentSlideIndex = n;
+        showSlide(currentSlideIndex);
+        resetAutoSlide();
+    }
+
+    function nextSlide() {
+        currentSlideIndex++;
+        showSlide(currentSlideIndex);
+    }
+
+    let autoSlideTimer;
+
+    function autoSlide() {
+        nextSlide();
+        resetAutoSlide();
+    }
+
+    function resetAutoSlide() {
+        clearTimeout(autoSlideTimer);
+        autoSlideTimer = setTimeout(autoSlide, 5000);
+    }
+
+    // Start auto-slide
+    autoSlideTimer = setTimeout(autoSlide, 5000);
+
+    // Newsletter handler
+    function handleNewsletter(event) {
+        event.preventDefault();
+        alert('Dziękujemy za zapisanie się! Sprawdź swój email.');
+        event.target.reset();
+        return false;
+    }
 </script>
+
 </body>
 </html>
