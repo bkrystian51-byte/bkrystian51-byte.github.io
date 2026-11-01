@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pl">
 <head>
@@ -403,7 +402,7 @@
             <li>Marketing</li><li>AI</li><li>Sprzedaż</li><li>Obsługa klienta</li>
           </ul>
           <div class="hero-actions">
-            <button class="button button-primary js-contact" type="button">Dane kontaktowe
+            <button class="button button-primary js-contact" type="button">Skontaktuj się
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
             <a class="button button-secondary" href="#doswiadczenie">Zobacz doświadczenie</a>
@@ -450,14 +449,14 @@
                 <li>Tworzenie interaktywnych, wielojęzycznych prezentacji biznesowych i ofert handlowych w środowisku webowym.</li>
                 <li>Aktywne pozyskiwanie klientów i tworzenie spersonalizowanych audytów.</li>
                 <li>Praca ze sztuczną inteligencją oraz analiza ruchu i zachowań użytkowników w Google Analytics 4.</li>
-                <li>Komunikacja z klientem, Obsługa zapytań, Przygotowywanie ofert.</li>
+                <li>Kontakt telefoniczny i mailowy z klientami.</li>
               </ul>
             </div>
           </article>
           <article class="role reveal">
             <div><time class="role-date" datetime="2025-09">09.2025 — 02.2026</time><span class="role-company">CityFit</span></div>
             <div>
-              <h3>Obsługa Klienta - Klub fitness</h3>
+              <h3>Obsługa Klienta / Praca w klubie fitness</h3>
               <ul>
                 <li>Obsługa klubowiczów i bezpośredni kontakt z klientami.</li>
                 <li>Udzielanie informacji o funkcjonowaniu klubu i ofercie.</li>
@@ -529,13 +528,8 @@
           <h3>Curriculum Vitae</h3>
           <p>Klasyczna wersja mojego CV w formacie PDF.</p>
           <div class="cv-actions">
-            <a class="button button-secondary" href="Bartlomiej_Krystian_CV_Marketing.pdf" download>
-  Pobierz CV
-</a>
-
-<a class="button button-primary" href="Bartlomiej_Krystian_CV_Marketing.pdf" target="_blank" rel="noopener">
-  Zobacz CV
-</a>
+            <a class="button button-primary" href="Bartlomiej_Krystian_CV.pdf" target="_blank" rel="noopener">Zobacz CV</a>
+            <a class="button button-secondary" href="Bartlomiej_Krystian_CV.pdf" download>Pobierz CV</a>
           </div>
         </article>
         <div class="reveal">
@@ -554,10 +548,8 @@
     <section class="section contact" id="kontakt" data-section>
       <div class="container reveal">
         <p class="section-eyebrow">Kontakt</p>
-        <h2 class="section-title">Porozmawiajmy o tym, co mogę wnieść do zespołu.</h2>
-<p class="section-lead">
-Chętnie opowiem więcej o swoim doświadczeniu, podejściu do pracy i tym, jak mogę wykorzystać swoje umiejętności w Państwa organizacji.
-</p>
+        <h2 class="section-title">Porozmawiajmy o współpracy.</h2>
+        <p class="section-lead">Chętnie opowiem więcej o swoim doświadczeniu i motywacji podczas rozmowy.</p>
         <div class="contact-links">
           <a class="contact-link" href="mailto:b.krystian51@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 5h18v14H3zM3 7l9 7 9-7"/></svg>b.krystian51@gmail.com</a>
           <a class="contact-link" href="tel:+48517625309"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2l4 4-2.5 3.5a16 16 0 0 0 7 7L18 14l4 4-2 3c-1 1.4-4.3.7-7.5-1.2A24 24 0 0 1 4.2 11.5C2.3 8.3 1.6 5 3 4z"/></svg>+48 517 625 309</a>
@@ -598,15 +590,26 @@ Chętnie opowiem więcej o swoim doświadczeniu, podejściu do pracy i tym, jak 
       const toTop = document.getElementById('toTop');
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Uzupełnij ścieżki dopiero po decyzji o publikacji konkretnych certyfikatów.
-      const documentLinks = { google: null, parp: null, gsa: null };
+      const documentLinks = {
+        google: [
+          { label: 'Google AI', url: 'Bartlomiej_Krystian_Certyfikat_Google_AI.pdf.pdf' },
+          { label: 'AI Essentials', url: 'bartłomiej-krystian-ai-essentials-2026-certificate.pdf' }
+        ],
+        parp: [],
+        gsa: [
+          { label: 'Trener personalny', url: 'Certyfikat_Trener_Personalny.pdf' },
+          { label: 'Instruktor siłowni', url: 'Certyfikat_Instruktor_Siłowni.pdf' }
+        ]
+      };
       document.querySelectorAll('[data-document]').forEach(row => {
-        const url = documentLinks[row.dataset.document];
-        if (!url) return;
-        const link = document.createElement('a');
-        link.href = url; link.target = '_blank'; link.rel = 'noopener';
-        link.className = 'doc-status'; link.textContent = 'Zobacz certyfikat';
-        row.querySelector('.doc-meta')?.appendChild(link);
+        const documents = documentLinks[row.dataset.document] || [];
+        const meta = row.querySelector('.doc-meta');
+        documents.forEach(document => {
+          const link = document.createElement('a');
+          link.href = document.url; link.target = '_blank'; link.rel = 'noopener';
+          link.className = 'doc-status'; link.textContent = `Zobacz: ${document.label}`;
+          meta?.appendChild(link);
+        });
       });
 
       const closeMenu = () => {
