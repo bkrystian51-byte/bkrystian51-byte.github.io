@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pl">
 <head>
@@ -604,10 +605,10 @@
       document.querySelectorAll('[data-document]').forEach(row => {
         const documents = documentLinks[row.dataset.document] || [];
         const meta = row.querySelector('.doc-meta');
-        documents.forEach(document => {
+        documents.forEach(certificate => {
           const link = document.createElement('a');
-          link.href = document.url; link.target = '_blank'; link.rel = 'noopener';
-          link.className = 'doc-status'; link.textContent = `Zobacz: ${document.label}`;
+          link.href = certificate.url; link.target = '_blank'; link.rel = 'noopener';
+          link.className = 'doc-status'; link.textContent = `Zobacz: ${certificate.label}`;
           meta?.appendChild(link);
         });
       });
